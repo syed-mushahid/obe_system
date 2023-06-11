@@ -11,7 +11,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { countExam, addExam } from "../apiCalls";
+import { countExam, addExam, getStudentsByCourse } from "../apiCalls";
 import { toast } from "react-toastify";
 const Quizform = () => {
   const navigate = useNavigate();
@@ -19,10 +19,23 @@ const Quizform = () => {
   const { id } = useParams();
   const [formInfo, setFormInfo] = useState();
   const [count, setCount] = useState(1);
+  const [isStudents, setIsStudents] = useState(false);
   useEffect(() => {
     fetchCount();
+    fetchStudents();
   }, [assisment_id]);
 
+  const fetchStudents = async () => {
+    try {
+      var res = await getStudentsByCourse(id);
+      console.log(res);
+      if (res.data.length > 0) {
+        setIsStudents(true);
+      }
+    } catch (error) {
+      console.log("Error", error);
+    }
+  };
   const fetchCount = async () => {
     try {
       var res = await countExam({ id: assisment_id });
@@ -235,6 +248,12 @@ const Quizform = () => {
     console.log(quiz);
   };
   const handleSubmit = async (event) => {
+    if (!isStudents) {
+      toast.error(
+        "No students are currently enrolled in this course. Please enroll at least one student before proceeding."
+      );
+      return;
+    }
     const count = formInfo?.count;
     const incrementedCount = count ? parseInt(count, 10) + 1 : "";
 
