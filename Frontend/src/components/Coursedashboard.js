@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import GroupsIcon from "@mui/icons-material/Groups";
 import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
@@ -19,7 +19,7 @@ import CSVReader from "react-csv-reader";
 import Modal from "@mui/material/Modal";
 import { Button } from "@mui/material";
 import { useParams } from "react-router-dom";
-import { enrollStudent } from "../apiCalls";
+import { enrollStudent,getClo } from "../apiCalls";
 import { toast } from "react-toastify";
 import Menue from "./Menue";
 
@@ -39,6 +39,7 @@ export default function Coursedashboard() {
   const handleopenclo = () => setopenclo(true);
   const handleCloseclo = () => setopenclo(false);
   const [students, setStudents] = useState(null);
+  const [clos, setClos] = useState([]);
   const style = {
     position: "absolute",
     top: "50%",
@@ -65,6 +66,23 @@ export default function Coursedashboard() {
     p: 4,
   };
 
+useEffect(()=>{
+
+
+fetchClo();
+},[])
+  const fetchClo=async()=>{
+
+    try{
+var res=await getClo({id:id});
+if(res){
+setClos(res.data);
+}
+    }
+    catch(error){
+console.log(error);
+    }
+  }
   const handleFileChange = (data) => {
     setStudents("");
     setStudents(data);
@@ -286,22 +304,16 @@ export default function Coursedashboard() {
                   <div className="clo-md-12 d-flex justify-content-center clodescription">
                     {/* <p>4. Create test cases for the elaborated user stories. [C,3] [PLO-2] </p> */}
                     <ul>
-                      <li>
-                        Identify appropriate software process models for
-                        real-world problems. [C,3] [PLO-2].
-                      </li>
-                      <li>
-                        Elaborate user stories using usecase and activity
-                        diagrams. [C,3] [PLO-2].
-                      </li>
-                      <li>
-                        Design the elaborated user stories using simple design
-                        techniques. [C,3] [PLO-2].
-                      </li>
-                      <li>
-                        Create test cases for the elaborated user stories. [C,3]
-                        [PLO-2].
-                      </li>
+                     {
+                      clos.map((clo)=>{
+
+                        return(
+                          <li>
+                           {clo.clo}
+                          </li>
+                        )
+                      })
+                     }
                     </ul>
                   </div>
                 </div>

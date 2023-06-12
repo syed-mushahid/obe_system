@@ -69,6 +69,37 @@ exports.calculateClo = async (req, res) => {
   });
 };
 
+
+
+exports.getCloByCourse = async (req, res) => {
+  const courseId = req.body.id;
+  console.log(courseId);
+  const query = `
+    SELECT *
+    FROM clo
+    WHERE courseId= ?
+  `;
+
+  db.query(query, [courseId], (error, results) => {
+    if (error) {
+      console.error("Error executing SQL query:", error);
+      return res.status(500).json({ error: "Failed to fetch clos" });
+    }
+
+    const students = results.map((row) => {
+      return {
+        id: row.id,
+        clo: row.clo,
+       };
+    });
+
+    return res.json(students);
+  });
+};
+
+
+
+
 // exports.calculateClo = async (req, res) => {
 //   const courseId = req.body.id;
 //   const data = []; // Array to store the data

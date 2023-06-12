@@ -178,3 +178,9 @@ export function getAttendace(data) {
 export function calculateClo(data) {
   return api.post("/calculateClo", data);
 }
+
+
+////Get Clos
+export function getClo(data) {
+  return api.post("/getClo", data);
+}

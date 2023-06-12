@@ -278,7 +278,7 @@ table td {
   color: white;
 }
 .dropdown-menu {
-  height: 95px;
+  /* height: 95px; */
 }
 .dropdown-menu li {
   position: relative;
@@ -290,7 +290,7 @@ table td {
   top: -7px;
 }
 .dropdown-submenu {
-  height: 94px;
+  /* height: 94px; */
   font-style: normal;
   font-weight: 500;
   font-size: 13px;

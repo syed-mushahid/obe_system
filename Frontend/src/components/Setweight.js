@@ -203,7 +203,7 @@ const Setweight = () => {
           marginRight: "20px",
         }}
       >
-        <Menue/>
+        {/* <Menue/> */}
         <div className="row">
           <div className="col-md-6 offset-md-4 mb-5 coursename">
             SE242SP23 Software Engineering

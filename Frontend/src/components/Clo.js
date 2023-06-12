@@ -99,16 +99,14 @@ export default function Clo() {
                     <td
                       key={cloId}
                       className={
-                        student.cloAchievements[cloId]?.achievement < 60
-                          ? "text-danger"
-                          : "text-success"
+                       
+                           "text-success"
                       }
                     >
                       {student.cloAchievements[cloId] ? (
                         <>
-                          {student.cloAchievements[cloId].achievement > 60
-                            ? "Y"
-                            : "N"}
+                          {student.cloAchievements[cloId].obtainedMarks
+                           }
                         </>
                       ) : (
                         "-"

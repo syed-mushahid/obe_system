@@ -11,8 +11,9 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { countExam, addExam, getStudentsByCourse } from "../apiCalls";
+import { countExam, addExam, getStudentsByCourse,getClo } from "../apiCalls";
 import { toast } from "react-toastify";
+import Menue from "./Menue";
 const Quizform = () => {
   const navigate = useNavigate();
   const { assisment_id } = useParams();
@@ -20,14 +21,28 @@ const Quizform = () => {
   const [formInfo, setFormInfo] = useState();
   const [count, setCount] = useState(1);
   const [isStudents, setIsStudents] = useState(false);
+  const [clos,setClos]=useState([]);
   useEffect(() => {
     fetchCount();
     fetchStudents();
+    fetchClo();
   }, [assisment_id]);
+  const fetchClo=async()=>{
 
+    try{
+var res=await getClo({id:id});
+if(res){
+setClos(res.data);
+console.log(res);
+}
+    }
+    catch(error){
+console.log(error);
+    }
+  }
   const fetchStudents = async () => {
     try {
-      var res = await getStudentsByCourse(id);
+      var res = await getStudentsByCourse({id:id});
       console.log(res);
       if (res.data.length > 0) {
         setIsStudents(true);
@@ -169,7 +184,7 @@ const Quizform = () => {
     if (totalMainQuestionMarks > parseFloat(newQuiz.totalMarks || 0)) {
       // If total main question marks exceed quiz total marks, reset marks
       toast.error(
-        "Sum of marks of all questions can not be greater than the total marks of the quiz."
+        "Sum of marks of all questions can not be greater than the total marks of the exam."
       );
       if (isQuestion) {
         newQuiz.questions[questionIndex].marks = "";
@@ -277,7 +292,7 @@ const Quizform = () => {
       toast.error(
         "Total " +
           (parseFloat(quiz.totalMarks) - parseFloat(currentTotal)) +
-          " Marks of the quiz are still un assigned."
+          " Marks of the exam are still un assigned."
       );
       return;
     }
@@ -333,6 +348,7 @@ const Quizform = () => {
           marginRight: "20%",
         }}
       >
+        <Menue/>
         <Grid
           container
           spacing={2}
@@ -415,10 +431,16 @@ const Quizform = () => {
                     placeholder="Select CLO"
                   >
                     <MenuItem value={0}>None</MenuItem>
-                    <MenuItem value={1}>CLO 1</MenuItem>
-                    <MenuItem value={2}>CLO 2</MenuItem>
-                    <MenuItem value={3}>CLO 3</MenuItem>
-                    <MenuItem value={4}>CLO 4</MenuItem>
+                    {
+                      clos.map((clo)=>{
+
+                        return(
+
+                          <MenuItem value={clo.id}>{clo.id} - {clo.clo}</MenuItem>
+                        )
+                      })
+                    }
+              
                   </TextField>
                 </Grid>
                 <Grid
@@ -498,10 +520,13 @@ const Quizform = () => {
                           className="inputfield"
                         >
                           <MenuItem value={0}>None</MenuItem>
-                          <MenuItem value={1}>CLO 1</MenuItem>
-                          <MenuItem value={2}>CLO 2</MenuItem>
-                          <MenuItem value={3}>CLO 3</MenuItem>
-                          <MenuItem value={4}>CLO 4</MenuItem>
+                         { clos.map((clo)=>{
+
+return(
+
+  <MenuItem value={clo.id}>{clo.id} - {clo.clo}</MenuItem>
+)
+})}
                         </TextField>
                       </Grid>
                       <Grid
