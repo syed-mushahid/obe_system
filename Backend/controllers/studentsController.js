@@ -11,7 +11,7 @@ exports.enrollStudent = async (req, res) => {
     return name !== "\n" && rollNo !== "\n" && rollNo !== "" && name !== "";
   });
 
-  if (studentData.length === 0) {
+  if (studentData?.length === 0) {
     res.status(400).json({ error: "No valid student data provided" });
     return;
   }
@@ -56,9 +56,9 @@ exports.enrollStudent = async (req, res) => {
           }
           var graddingData;
           const newStudents = [];
-          if (gradeResults.length > 0) {
+          if (gradeResults?.length > 0) {
             let completedCount = 0;
-            for (let i = 0; i < gradeResults.length; i++) {
+            for (let i = 0; i < gradeResults?.length; i++) {
               const findStuSql =
                 "SELECT * FROM gradding WHERE roll_no = ? AND courseId = ?";
               db.query(
@@ -72,13 +72,13 @@ exports.enrollStudent = async (req, res) => {
                     });
                     return;
                   }
-                  if (findStuResults.length > 0) {
+                  if (findStuResults?.length > 0) {
                     graddingData = findStuResults;
                   } else {
                     newStudents.push(gradeResults[i].roll_no);
                   }
                   completedCount++;
-                  if (completedCount === gradeResults.length) {
+                  if (completedCount === gradeResults?.length) {
                     resolve(graddingData);
                   }
                 }
@@ -100,9 +100,9 @@ exports.enrollStudent = async (req, res) => {
             return;
           }
           const newStudents = [];
-          if (gradeResults.length > 0) {
+          if (gradeResults?.length > 0) {
             let completedCount = 0;
-            for (let i = 0; i < gradeResults.length; i++) {
+            for (let i = 0; i < gradeResults?.length; i++) {
               const findStuSql =
                 "SELECT * FROM gradding WHERE roll_no = ? AND courseId = ?";
               db.query(
@@ -116,11 +116,11 @@ exports.enrollStudent = async (req, res) => {
                     });
                     return;
                   }
-                  if (findStuResults.length === 0) {
+                  if (findStuResults?.length === 0) {
                     newStudents.push(gradeResults[i].roll_no);
                   }
                   completedCount++;
-                  if (completedCount === gradeResults.length) {
+                  if (completedCount === gradeResults?.length) {
                     resolve(newStudents);
                   }
                 }
@@ -132,8 +132,8 @@ exports.enrollStudent = async (req, res) => {
         });
       }),
     ]);
-    for (let j = 0; j < newStudent.length; j++) {
-      for (let k = 0; k < gradding.length; k++) {
+    for (let j = 0; j < newStudent?.length; j++) {
+      for (let k = 0; k < gradding?.length; k++) {
         const insertGrade =
           "INSERT INTO gradding (roll_no, courseId, examId, questionId, partId, cloId, obtainedMarks, totalMarks) VALUES (?, ?, ?, ?, ?, ?, 0, ?)";
         db.query(

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 11, 2023 at 10:38 PM
--- Server version: 10.4.21-MariaDB
--- PHP Version: 8.0.12
+-- Generation Time: Jun 15, 2023 at 08:29 PM
+-- Server version: 10.4.25-MariaDB
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -40,11 +40,12 @@ CREATE TABLE `assessment` (
 --
 
 INSERT INTO `assessment` (`id`, `name`, `courseId`, `marks`, `weightage`) VALUES
-(17, 'Assignments', 1, NULL, 30),
-(19, 'Midterm', 1, NULL, 20),
-(20, 'Final Term', 1, NULL, 20),
-(21, 'Quizzes', 1, NULL, 30),
-(24, 'Quiz', 2, NULL, 30);
+(27, 'viva', 1, NULL, 20),
+(29, 'Assignment', 1, NULL, 70),
+(31, 'Quiz', 2, NULL, 10),
+(32, 'project', 2, NULL, 30),
+(33, 'Quiz', 1, NULL, 10),
+(34, 'lab work', 2, NULL, 10);
 
 -- --------------------------------------------------------
 
@@ -100,7 +101,7 @@ INSERT INTO `attendance` (`id`, `studentId`, `courseId`, `status`, `date`) VALUE
 (126, 13629, 1, 'P', '2023-05-19'),
 (127, 13629, 1, 'A', '2023-05-20'),
 (128, 13629, 1, 'A', '2023-05-10'),
-(129, 12284, 1, 'Z', '2023-05-30'),
+(129, 12284, 1, 'P', '2023-05-30'),
 (130, 12284, 1, 'P', '2023-05-31'),
 (131, 12284, 1, 'A', '2023-06-01'),
 (132, 12284, 1, 'A', '2023-05-28'),
@@ -122,7 +123,32 @@ INSERT INTO `attendance` (`id`, `studentId`, `courseId`, `status`, `date`) VALUE
 (148, 13627, 1, 'A', '2023-05-28'),
 (149, 13627, 1, 'A', '2023-05-19'),
 (150, 13627, 1, 'P', '2023-05-20'),
-(151, 13627, 1, 'P', '2023-05-10');
+(151, 13627, 1, 'P', '2023-05-10'),
+(152, 13629, 1, 'P', '2022-02-15'),
+(153, 13627, 1, 'P', '2022-02-15'),
+(154, 12284, 1, 'P', '2022-02-15'),
+(155, 2284, 1, 'P', '2022-02-15'),
+(156, 12332, 1, 'P', '2022-02-15'),
+(157, 13629, 1, 'P', '2023-11-15'),
+(158, 13627, 1, 'P', '2023-11-15'),
+(159, 12284, 1, 'P', '2023-11-15'),
+(160, 2284, 1, 'P', '2023-11-15'),
+(161, 12332, 1, 'P', '2023-11-15'),
+(162, 13629, 1, 'A', '2021-09-08'),
+(163, 13627, 1, 'A', '2021-09-08'),
+(164, 12284, 1, 'A', '2021-09-08'),
+(165, 2284, 1, 'A', '2021-09-08'),
+(166, 12332, 1, 'A', '2021-09-08'),
+(167, 13629, 1, 'P', '2021-06-09'),
+(168, 13627, 1, 'P', '2021-06-09'),
+(169, 12284, 1, 'P', '2021-06-09'),
+(170, 2284, 1, 'A', '2021-06-09'),
+(171, 12332, 1, 'A', '2021-06-09'),
+(172, 13629, 1, 'P', '2025-11-09'),
+(173, 13627, 1, 'P', '2025-11-09'),
+(174, 12284, 1, 'P', '2025-11-09'),
+(175, 2284, 1, 'P', '2025-11-09'),
+(176, 12332, 1, 'A', '2025-11-09');
 
 -- --------------------------------------------------------
 
@@ -170,7 +196,7 @@ CREATE TABLE `course` (
 
 INSERT INTO `course` (`id`, `name`, `creditHour`, `teacherId`, `mainCourse`, `courseType`, `courseCode`, `department`, `weightage`) VALUES
 (1, 'OOP', 3, 1, 0, 'Theory', 'SE2323', 'Software Engineering', 100),
-(2, 'DSA', 3, 1, 1, 'Lab', 'CS323', 'Computer Science', 30);
+(2, 'DSA', 3, 1, 1, 'Lab', 'CS323', 'Computer Science', 50);
 
 -- --------------------------------------------------------
 
@@ -193,7 +219,9 @@ CREATE TABLE `courseplan` (
 --
 
 INSERT INTO `courseplan` (`id`, `courseId`, `weekNo`, `fromDate`, `toDate`, `topicCovered`, `activities`) VALUES
-(11, 1, '12', '2023-06-08', '2023-06-18', '1', '4');
+(11, 1, '123', '2023-06-22', '2023-06-24', 'Quiz', 'Car'),
+(16, 1, '5', '2023-06-06', '2023-06-16', '12', 'ff'),
+(17, 1, 'syed@gmail.com', '2023-06-01', '2023-06-23', '12', '12');
 
 -- --------------------------------------------------------
 
@@ -260,7 +288,7 @@ CREATE TABLE `extraattendance` (
 --
 
 INSERT INTO `extraattendance` (`id`, `courseId`, `percentage`) VALUES
-(38, 1, 10);
+(46, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -392,8 +420,11 @@ CREATE TABLE `student` (
 --
 
 INSERT INTO `student` (`id`, `roll_no`, `name`, `email`, `course_id`) VALUES
-(178, '1234', 'Syed Mushahid', '', 1),
-(179, '3343', 'Talha', '', 1);
+(285, '13629', 'Syed Mushahid Hussain', '', 1),
+(286, '13627', 'Talha', '', 1),
+(287, '12284', 'Luqman Waheed', '', 1),
+(288, '2284', 'Usama Shah', '', 1),
+(289, '12332', 'Ali Akbar', '', 1);
 
 -- --------------------------------------------------------
 
@@ -507,13 +538,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `assessment`
 --
 ALTER TABLE `assessment`
-  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `attendance`
 --
 ALTER TABLE `attendance`
-  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=152;
+  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=177;
 
 --
 -- AUTO_INCREMENT for table `course`
@@ -525,7 +556,7 @@ ALTER TABLE `course`
 -- AUTO_INCREMENT for table `courseplan`
 --
 ALTER TABLE `courseplan`
-  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `exam`
@@ -543,7 +574,7 @@ ALTER TABLE `examquestion`
 -- AUTO_INCREMENT for table `extraattendance`
 --
 ALTER TABLE `extraattendance`
-  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `gradding`
@@ -561,7 +592,7 @@ ALTER TABLE `questionpart`
 -- AUTO_INCREMENT for table `student`
 --
 ALTER TABLE `student`
-  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=180;
+  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=290;
 
 --
 -- AUTO_INCREMENT for table `users`

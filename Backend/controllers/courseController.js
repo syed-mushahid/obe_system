@@ -137,7 +137,7 @@ exports.deleteCoursePlan = async (req, res) => {
 
 exports.updateCoursePlan = async (req, res) => {
   try {
-    const courseId = req.body.courseId;
+    const id = req.body.id;
     const weekNo = req.body.weekNo;
     const fromDate = req.body.fromDate;
     const toDate = req.body.toDate;
@@ -145,10 +145,10 @@ exports.updateCoursePlan = async (req, res) => {
     const activities = req.body.activities;
 
     const sql =
-      "UPDATE coursePlan SET weekNo = ?, fromDate = ?, toDate = ?, topicCovered = ?, activities = ? WHERE courseId = ?";
+      "UPDATE coursePlan SET weekNo = ?, fromDate = ?, toDate = ?, topicCovered = ?, activities = ? WHERE id = ?";
     db.query(
       sql,
-      [weekNo, fromDate, toDate, topicCovered, activities, courseId],
+      [weekNo, fromDate, toDate, topicCovered, activities, id],
       (error, Results) => {
         if (error) {
           return res

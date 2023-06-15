@@ -90,13 +90,21 @@ export default function Courseplan() {
     const data = {
       courseId: id,
       weekNo: week,
-      fromDate: from.substring(0, 10),
-      toDate: to.substring(0, 10),
+      fromDate: new Date(from.substring(0, 10)),
+      toDate: new Date(to.substring(0, 10)),
       topicCovered: topic,
       activities: activity,
     };
 
-    console.log(data);
+    data.fromDate.setDate(data.fromDate.getDate() + 1);
+    data.toDate.setDate(data.toDate.getDate() + 1);
+
+    // Convert the dates back to string format if needed
+    data.fromDate = data.fromDate.toISOString().substring(0, 10);
+    data.toDate = data.toDate.toISOString().substring(0, 10);
+
+
+    console.log("Week Data", data);
     try {
       var res = await AddCoursePlan(data);
 
@@ -187,7 +195,7 @@ export default function Courseplan() {
       activities: editedactivity,
     };
 
-    console.log(updatedData);
+    console.log("Updated ID", updatedData);
     try {
       var res = await UpdateCoursePlan(updatedData);
       if (res) {

@@ -1,5 +1,5 @@
 import { Button, Card, Menu, TextField } from "@mui/material";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import { Box } from "@mui/system";
 import { DataGrid } from "@mui/x-data-grid";
 import {
@@ -14,7 +14,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { toast } from "react-toastify";
 import Menue from "./Menue";
-
+import { UserContext } from "../context/UserContext";
 const style = {
   position: "absolute",
   top: "50%",
@@ -27,6 +27,7 @@ const style = {
   p: 4,
 };
 export default function View_Att() {
+  const { user } = useContext(UserContext);
   const [open, setOpen] = useState(false);
   const apiRef = useRef(null);
   // const [rows, setRows] = useState([]);
@@ -163,6 +164,10 @@ export default function View_Att() {
   var rows = [];
   var columns = [];
   if (attendanceTable) {
+    const sortedDates = attendanceTable.dates
+      .map((date, index) => ({ date, index }))
+      .sort((a, b) => new Date(a.date) - new Date(b.date)); // Sort the dates with their corresponding indices
+
     rows = attendanceTable.data.map((studentAttendance) => ({
       id: studentAttendance.studentId,
       reg_no: studentAttendance.studentRollNo,
@@ -174,29 +179,47 @@ export default function View_Att() {
         }),
         {}
       ),
-
       percent:
         studentAttendance.attendancePercentage || extraAttendance
           ? Math.min(
-              parseFloat(extraAttendance) +
+              parseFloat(extraAttendance || 0) +
                 parseFloat(studentAttendance.attendancePercentage),
               100
             ).toFixed(2)
           : 0.0,
     }));
 
+    var editable = false;
+    if (user.type == 0) {
+      editable = true;
+    }
+
     columns = [
       { field: "reg_no", type: "number", headerName: "Reg No.", width: 90 },
       { field: "name", headerName: "Name", width: 300 },
-      ...attendanceTable.dates.map((date, index) => ({
-        field: `date_${index + 1}`,
-        headerName: date,
+      ...sortedDates.map((dateObj) => ({
+        field: `date_${dateObj.index + 1}`,
+        headerName: dateObj.date,
         width: 90,
-        editable: true,
+        editable: editable,
       })),
       { field: "percent", headerName: "Percent", width: 90 },
     ];
+
+    // Sort the rows based on the sorted dates
+    const sortedRows = rows.map((row) => {
+      const sortedRow = { ...row };
+      sortedDates.forEach((dateObj) => {
+        const { index } = dateObj;
+        const fieldName = `date_${index + 1}`;
+        sortedRow[fieldName] = row[fieldName];
+      });
+      return sortedRow;
+    });
+    rows = sortedRows;
   }
+
+
 
   const processRowUpdate = React.useCallback(
     async (newRow) => {

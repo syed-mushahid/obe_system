@@ -7,7 +7,10 @@ import {
   Typography,
   Modal,
   Box,
+  InputLabel,
   TextField,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
@@ -16,6 +19,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { InsertChart } from "@mui/icons-material";
+
 import {
   assignWeightage,
   ShowAssessment,
@@ -105,7 +109,6 @@ const Setweight = () => {
     try {
       var res = await DeleteAssessment({ id: id });
       if (res) {
-        console.log(res);
         setStateChanged(true);
         toast.success(res.data.message);
       }
@@ -262,24 +265,34 @@ const Setweight = () => {
                   <Box sx={style}>
                     <div className="row mb-3">
                       <div className="col-md-12 d-flex justify-content-center">
-                        <p className="setweightmodalhtag">Theory Portion</p>
+                        {/* <p className="setweightmodalhtag">Theory Portion</p> */}
                       </div>
                     </div>
                     <div className="row">
                       <div class="col">
-                        <TextField
-                          required
-                          className="mb-4 inputfield"
-                          size="small"
-                          color="success"
-                          type="text"
-                          fullWidth
-                          id="outlined-basic"
-                          label="Enter Assessment Name"
-                          variant="outlined"
-                          value={name}
-                          onChange={(e) => setName(e.target.value)}
-                        />
+                        <div>
+                          <InputLabel id="assessment-name-label">
+                            Enter Assessment Name
+                          </InputLabel>
+                          <Select
+                            required
+                            className="mb-4 inputfield"
+                            size="small"
+                            color="success"
+                            fullWidth
+                            id="outlined-basic"
+                            labelId="assessment-name-label"
+                            variant="outlined"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                          >
+                            {validNames.map((nameOption) => (
+                              <MenuItem key={nameOption} value={nameOption}>
+                                {nameOption}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </div>
                       </div>
                     </div>
                     <div className="row">
@@ -367,19 +380,29 @@ const Setweight = () => {
                 </div>
                 <div className="row">
                   <div class="col">
-                    <TextField
-                      required
-                      className="mb-4 inputfield"
-                      size="small"
-                      color="success"
-                      type="text"
-                      fullWidth
-                      id="outlined-basic"
-                      label="Enter Assessment Name"
-                      variant="outlined"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                    />
+                    <div>
+                      <InputLabel id="assessment-name-label">
+                        Enter Assessment Name
+                      </InputLabel>
+                      <Select
+                        required
+                        className="mb-4 inputfield"
+                        size="small"
+                        color="success"
+                        fullWidth
+                        id="outlined-basic"
+                        labelId="assessment-name-label"
+                        variant="outlined"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                      >
+                        {validNames.map((nameOption) => (
+                          <MenuItem key={nameOption} value={nameOption}>
+                            {nameOption}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </div>
                   </div>
                 </div>
                 <div className="row">
