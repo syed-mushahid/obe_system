@@ -197,8 +197,7 @@ exports.UpdateAssessment = async (req, res) => {
           // Calculate the updated weightage in the course table
           const updatedCourseWeightage =
             parseFloat(weightage) + parseFloat(weightageDifference);
-
-          if (results[0].mainCourse >0) {
+          if (results[0].mainCourse > 0) {
             if (updatedCourseWeightage <= 50) {
               // Update the weightage in the course table
               const updateCourseWeightageSql =

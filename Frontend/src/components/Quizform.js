@@ -11,7 +11,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { countExam, addExam, getStudentsByCourse,getClo } from "../apiCalls";
+import { countExam, addExam, getStudentsByCourse, getClo } from "../apiCalls";
 import { toast } from "react-toastify";
 import Menue from "./Menue";
 const Quizform = () => {
@@ -21,28 +21,26 @@ const Quizform = () => {
   const [formInfo, setFormInfo] = useState();
   const [count, setCount] = useState(1);
   const [isStudents, setIsStudents] = useState(false);
-  const [clos,setClos]=useState([]);
+  const [clos, setClos] = useState([]);
   useEffect(() => {
     fetchCount();
     fetchStudents();
     fetchClo();
   }, [assisment_id]);
-  const fetchClo=async()=>{
-
-    try{
-var res=await getClo({id:id});
-if(res){
-setClos(res.data);
-console.log(res);
-}
+  const fetchClo = async () => {
+    try {
+      var res = await getClo({ id: id });
+      if (res) {
+        setClos(res.data);
+        console.log(res);
+      }
+    } catch (error) {
+      console.log(error);
     }
-    catch(error){
-console.log(error);
-    }
-  }
+  };
   const fetchStudents = async () => {
     try {
-      var res = await getStudentsByCourse({id:id});
+      var res = await getStudentsByCourse({ id: id });
       console.log(res);
       if (res.data.length > 0) {
         setIsStudents(true);
@@ -246,6 +244,7 @@ console.log(error);
   };
 
   const handleRemoveQuestion = (questionIndex) => {
+    console.log(questionIndex);
     const newQuiz = { ...quiz };
     newQuiz.questions.splice(questionIndex, 1);
     newQuiz.questions.forEach((question, index) => {
@@ -348,7 +347,7 @@ console.log(error);
           marginRight: "20%",
         }}
       >
-        <Menue/>
+        <Menue />
         <Grid
           container
           spacing={2}
@@ -401,9 +400,7 @@ console.log(error);
                     </div>
                     <div className="col d-flex justify-content-end">
                       <IconButton
-                        onClick={(questionIndex) =>
-                          handleRemoveQuestion(questionIndex)
-                        }
+                        onClick={() => handleRemoveQuestion(questionIndex)}
                       >
                         <CancelIcon className="plusiconbutton" />
                       </IconButton>
@@ -431,16 +428,13 @@ console.log(error);
                     placeholder="Select CLO"
                   >
                     <MenuItem value={0}>None</MenuItem>
-                    {
-                      clos.map((clo)=>{
-
-                        return(
-
-                          <MenuItem value={clo.id}>{clo.id} - {clo.clo}</MenuItem>
-                        )
-                      })
-                    }
-              
+                    {clos.map((clo) => {
+                      return (
+                        <MenuItem value={clo.id}>
+                          {clo.id} - {clo.clo}
+                        </MenuItem>
+                      );
+                    })}
                   </TextField>
                 </Grid>
                 <Grid
@@ -520,13 +514,13 @@ console.log(error);
                           className="inputfield"
                         >
                           <MenuItem value={0}>None</MenuItem>
-                         { clos.map((clo)=>{
-
-return(
-
-  <MenuItem value={clo.id}>{clo.id} - {clo.clo}</MenuItem>
-)
-})}
+                          {clos.map((clo) => {
+                            return (
+                              <MenuItem value={clo.id}>
+                                {clo.id} - {clo.clo}
+                              </MenuItem>
+                            );
+                          })}
                         </TextField>
                       </Grid>
                       <Grid
