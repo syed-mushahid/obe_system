@@ -28,6 +28,7 @@ import Clo from "./components/Clo";
 import Plo from "./components/Plo";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Feedback from "./components/Feedback";
 import { UserProvider } from "./context/UserContext";
 function App() {
   return (
@@ -85,6 +86,11 @@ function App() {
               exact
               path="/plo/:id"
               element={<ProtectedRoutes component={Plo} />}
+            />
+            <Route
+              exact
+              path="/feedback"
+              element={<ProtectedRoutes component={Feedback} />}
             />
             <Route
               exact

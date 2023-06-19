@@ -33,6 +33,46 @@ app.use("/", attendanceRoutes);
 const cloRoutes = require("./routes/cloRoutes");
 app.use("/", cloRoutes);
 
+app.get("/questions", (req, res) => {
+  try {
+    const query = "SELECT * FROM feedback";
+    db.query(query, (error, result) => {
+      if (error) {
+        console.error(error);
+        res.status(500).json({ error: "Failed to fetch the questions" });
+      } else {
+        // const questions = result.map((row) => row.question);
+        res.json(result);
+      }
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to fetch the questions" });
+  }
+});
+app.post("/feedback", (req, res) => {
+  const answers = req.body;
+  console.log(answers);
+
+  const query = "UPDATE feedback SET feedback = ? WHERE feedback_id = ?";
+
+  if (Array.isArray(answers)) {
+    answers.forEach((answer) => {
+      try {
+        db.query(query, [answer.answer, answer.feedback_id]);
+      } catch (error) {
+        console.error("Error updating feedback:", error);
+      }
+    });
+  } else {
+    console.error("Invalid format: answers must be an array");
+  }
+
+  return res
+    .status(200)
+    .json({ success: true, message: "feedback inserted successfully" });
+});
+
 app.listen(3001, () => {
   console.log("Server is running on port 3001");
 });
