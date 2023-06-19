@@ -1,5 +1,5 @@
-import React, { useEffect, useState ,useRef} from "react";
-import { calculateClo,getCourseById } from "../apiCalls";
+import React, { useEffect, useState, useRef } from "react";
+import { calculateClo, getCourseById } from "../apiCalls";
 import { useParams } from "react-router-dom";
 import { Card } from "@mui/material";
 import { toast } from "react-toastify";
@@ -88,7 +88,6 @@ export default function Plo() {
     return mergedData;
   };
 
-
   const handleExportPDF = () => {
     const tableContainer = tableContainerRef.current;
     tableContainer.scrollLeft = 0;
@@ -130,27 +129,27 @@ export default function Plo() {
           <Menue />
         </div>
         <div className="row">
-            <div className="col-md-12 d-flex justify-content-between">
-              <p className="scoreboardheading">PLO</p>
-              <div>
-
-                <button
-                  className="btn btn-success p-3 "
-                  onClick={handleExportPDF}
-                >
-                  Export to PDF
-                </button>
-              </div>
+          <div className="col-md-12 d-flex justify-content-between">
+            <p className="scoreboardheading">PLO</p>
+            <div>
+              <button
+                className="btn btn-success p-3 "
+                onClick={handleExportPDF}
+              >
+                Export to PDF
+              </button>
             </div>
           </div>
+        </div>
         <div
-        ref={tableContainerRef}
+          ref={tableContainerRef}
           className="table-responsive py-0 px-0"
           style={{ height: "600px", overflow: "auto", textAlign: "center" }}
         >
           <table
-           ref={tableRef}
-          className="table table-bordered score4 text-center">
+            ref={tableRef}
+            className="table table-bordered score4 text-center"
+          >
             <thead>
               <tr className="score">
                 <th rowSpan="3" colSpan="3">
@@ -206,16 +205,14 @@ export default function Plo() {
                     >
                       {student.cloAchievements[cloId] ? (
                         <>
-                          {Number(
-                            student.cloAchievements[cloId].obtainedMarks
-                          ).toFixed(1) +
-                            " (" +
-                            Number(
-                              (student.cloAchievements[cloId].obtainedMarks /
-                                student.cloAchievements[cloId].totalMarks) *
-                                100
-                            ).toFixed(1) +
-                            "% )"}
+                          {parseFloat(
+                            student.cloAchievements[cloId]?.obtainedMarks /
+                              student.cloAchievements[cloId]?.totalMarks
+                          ) *
+                            100 <
+                          parseFloat(student.cloAchievements[cloId]?.ploKpi)
+                            ? "No"
+                            : "Yes"}
                         </>
                       ) : (
                         "-"
