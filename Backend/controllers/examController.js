@@ -1,5 +1,6 @@
 const { db } = require("../database");
 const mysql = require("mysql2/promise");
+require('dotenv').config();
 
 exports.addExam = async (req, res) => {
   const examName = req.body.examName;
@@ -356,12 +357,11 @@ exports.updateGrades = async (req, res) => {
 
   try {
     const connection = await mysql.createConnection({
-      host: "localhost",
-      user: "root",
-      password: "",
-      database: "obesystem",
+      host: process.env.HOST || "localhost",
+      user: process.env.USER || "root",
+      password: process.env.PASSWORD || "",
+      database: process.env.DATABASE || "obesystem",
     });
-
     // Update obtainedMarks for each object in newMarks array
     for (const mark of newMarks) {
       const { id, mark: obtainedMarks } = mark;
@@ -387,10 +387,10 @@ exports.getMarkSheetData = async (req, res) => {
 
   try {
     const connection = await mysql.createConnection({
-      host: "localhost",
-      user: "root",
-      password: "",
-      database: "obesystem",
+      host: process.env.HOST || "localhost",
+      user: process.env.USER || "root",
+      password: process.env.PASSWORD || "",
+      database: process.env.DATABASE || "obesystem",
     });
 
     const query = `

@@ -201,6 +201,27 @@ console.log(error);
                 </div>
               </Card>
             </Link>
+            <Link to={"/plo/" + id} style={{ textDecoration: "none" }}>
+              <Card
+                className="shadow-inner"
+                style={{ marginTop: "15px", backgroundColor: "#F5F5F5" }}
+              >
+                <div className="row m-2">
+                  <div className="col-1 mt-1 " style={{ paddingLeft: "35px" }}>
+                    <AssessmentIcon
+                      style={{
+                        fontSize: "30px",
+                        marginTop: "3px",
+                        color: "#346448",
+                      }}
+                    />
+                  </div>
+                  <div className="col-11 mt-2" style={{ paddingLeft: "0" }}>
+                    <p className="coursedashpara">View PLO Attainment</p>
+                  </div>
+                </div>
+              </Card>
+            </Link>
             <Link to={"/courseplan/" + id} style={{ textDecoration: "none" }}>
               <Card
                 className="shadow-inner"

@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
-import { calculateClo, getCourseById } from "../apiCalls";
+import React, { useEffect, useState ,useRef} from "react";
+import { calculateClo,getCourseById } from "../apiCalls";
 import { useParams } from "react-router-dom";
 import { Card } from "@mui/material";
 import { toast } from "react-toastify";
@@ -7,7 +7,7 @@ import Menue from "./Menue";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import html2canvas from "html2canvas";
-export default function Clo() {
+export default function Plo() {
   const { id } = useParams();
   const [cloData, setCloData] = useState([]);
   const [cloIds, setCloIds] = useState([]);
@@ -21,18 +21,21 @@ export default function Clo() {
         // Calculate CLO achievement using the apiCalls function
         const calculatedCloData = await calculateClo({ id: id });
 
-        // Set the calculated CLO data in the state
-        setCloData(calculatedCloData.data);
+        // Merge cloAchievements with the same ploId
+        const mergedCloData = mergeCloAchievementsByPloId(
+          calculatedCloData.data
+        );
+
+        // Set the calculated and merged CLO data in the state
+        setCloData(mergedCloData);
 
         // Extract the CLO IDs from the data and set them in the state
-        if (calculatedCloData.data.length > 0) {
-          const extractedCloIds = Object.keys(
-            calculatedCloData.data[0].cloAchievements
-          );
+        if (mergedCloData.length > 0) {
+          const extractedCloIds = Object.keys(mergedCloData[0].cloAchievements);
           setCloIds(extractedCloIds);
         }
 
-        console.log(calculatedCloData);
+        console.log(mergedCloData);
       } catch (error) {
         console.error(error);
         toast.error("Failed to fetch CLO data.");
@@ -53,6 +56,38 @@ export default function Clo() {
       console.log("Error: ", error);
     }
   };
+  const mergeCloAchievementsByPloId = (data) => {
+    const mergedData = [];
+
+    data.forEach((student) => {
+      const mergedCloAchievements = {};
+
+      Object.values(student.cloAchievements).forEach((achievement) => {
+        const { cloId, ploId, totalMarks, obtainedMarks, ploKpi, cloKpi } =
+          achievement;
+
+        if (!mergedCloAchievements[ploId]) {
+          mergedCloAchievements[ploId] = {
+            cloId,
+            ploId,
+            totalMarks,
+            ploKpi,
+            cloKpi,
+            obtainedMarks,
+          };
+        } else {
+          mergedCloAchievements[ploId].totalMarks += totalMarks;
+          mergedCloAchievements[ploId].obtainedMarks += obtainedMarks;
+        }
+      });
+
+      student.cloAchievements = Object.values(mergedCloAchievements);
+      mergedData.push(student);
+    });
+
+    return mergedData;
+  };
+
 
   const handleExportPDF = () => {
     const tableContainer = tableContainerRef.current;
@@ -77,7 +112,6 @@ export default function Clo() {
         console.error("Error generating PDF: ", error);
       });
   };
-
   return (
     <div className="m-5">
       <Card
@@ -96,27 +130,27 @@ export default function Clo() {
           <Menue />
         </div>
         <div className="row">
-          <div className="col-md-12 d-flex justify-content-between">
-            <p className="scoreboardheading">CLO</p>
-            <div>
-              <button
-                className="btn btn-success p-3 "
-                onClick={handleExportPDF}
-              >
-                Export to PDF
-              </button>
+            <div className="col-md-12 d-flex justify-content-between">
+              <p className="scoreboardheading">PLO</p>
+              <div>
+
+                <button
+                  className="btn btn-success p-3 "
+                  onClick={handleExportPDF}
+                >
+                  Export to PDF
+                </button>
+              </div>
             </div>
           </div>
-        </div>
         <div
-          ref={tableContainerRef}
+        ref={tableContainerRef}
           className="table-responsive py-0 px-0"
           style={{ height: "600px", overflow: "auto", textAlign: "center" }}
         >
           <table
-            ref={tableRef}
-            className="table table-bordered score4 text-center"
-          >
+           ref={tableRef}
+          className="table table-bordered score4 text-center">
             <thead>
               <tr className="score">
                 <th rowSpan="3" colSpan="3">
@@ -124,7 +158,7 @@ export default function Clo() {
                 </th>
                 {cloIds?.map((cloId) => (
                   <th style={{ top: "0px" }} key={cloId}>
-                    Clo {cloData?.[0]?.cloAchievements[cloId]?.cloId}
+                    Plo {cloData?.[0]?.cloAchievements[cloId]?.ploId}
                   </th>
                 ))}
               </tr>
@@ -165,7 +199,7 @@ export default function Clo() {
                             student.cloAchievements[cloId]?.totalMarks
                         ) *
                           100 <
-                        parseFloat(student.cloAchievements[cloId]?.cloKpi)
+                        parseFloat(student.cloAchievements[cloId]?.ploKpi)
                           ? "bg-danger text-white"
                           : "")
                       }

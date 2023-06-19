@@ -25,6 +25,7 @@ import View_Att from "./components/View_att";
 import Add_Attendance from "./components/Add_att";
 import Participants from "./components/participants";
 import Clo from "./components/Clo";
+import Plo from "./components/Plo";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { UserProvider } from "./context/UserContext";
@@ -79,6 +80,11 @@ function App() {
               exact
               path="/clo/:id"
               element={<ProtectedRoutes component={Clo} />}
+            />
+            <Route
+              exact
+              path="/plo/:id"
+              element={<ProtectedRoutes component={Plo} />}
             />
             <Route
               exact

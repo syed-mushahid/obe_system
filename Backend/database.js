@@ -1,10 +1,12 @@
 const mysql2=require('mysql2');
+require('dotenv').config();
+
 const db=mysql2.createConnection(
     {
-        host:'localhost',
-        user:'root',
-        password:'',
-        database:'obesystem'
+        host: process.env.HOST,
+        user: process.env.USER ,
+        password: process.env.PASSWORD ,
+        database: process.env.DATABASE ,
     }
 );
 const connectdb=()=>{

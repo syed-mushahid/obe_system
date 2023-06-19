@@ -1,5 +1,6 @@
 const { db } = require("../database");
 const mysql = require("mysql2/promise");
+require('dotenv').config();
 
 exports.saveAttendance = async (req, res) => {
   try {
@@ -88,10 +89,10 @@ exports.viewAttendance = async (req, res) => {
   try {
     // Create a connection using the promise wrapper
     const connection = await mysql.createConnection({
-      host: "localhost",
-      user: "root",
-      password: "",
-      database: "obesystem",
+      host: process.env.HOST || "localhost",
+      user: process.env.USER || "root",
+      password: process.env.PASSWORD || "",
+      database: process.env.DATABASE || "obesystem",
     });
 
     // const extraAttenSql = "SELECT * FROM extraattendance WHERE courseId = ?";
