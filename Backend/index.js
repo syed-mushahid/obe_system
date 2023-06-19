@@ -1,7 +1,7 @@
 const express = require("express");
 const { db } = require("./database");
 const cors = require("cors");
-
+const path = require("path");
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -10,6 +10,11 @@ app.use(
     origin: "http://localhost:3000",
   })
 );
+app.use(express.static(path.join(__dirname, "build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "build", "index.html"));
+});
 
 const registrationRoutes = require("./routes/registrationRoutes");
 app.use("/auth/", registrationRoutes);
