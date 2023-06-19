@@ -87,7 +87,8 @@ export default function Courseplan() {
       toast.error("Fields cannot be empty");
       return;
     }
-    const data = {
+
+    const weekData = {
       courseId: id,
       weekNo: week,
       fromDate: new Date(from.substring(0, 10)),
@@ -96,17 +97,23 @@ export default function Courseplan() {
       activities: activity,
     };
 
-    data.fromDate.setDate(data.fromDate.getDate() + 1);
-    data.toDate.setDate(data.toDate.getDate() + 1);
+    weekData.fromDate.setDate(weekData.fromDate.getDate() + 1);
+    weekData.toDate.setDate(weekData.toDate.getDate() + 1);
 
     // Convert the dates back to string format if needed
-    data.fromDate = data.fromDate.toISOString().substring(0, 10);
-    data.toDate = data.toDate.toISOString().substring(0, 10);
+    weekData.fromDate = weekData.fromDate.toISOString().substring(0, 10);
+    weekData.toDate = weekData.toDate.toISOString().substring(0, 10);
 
+    console.log("Week weekData", weekData);
 
-    console.log("Week Data", data);
+    const weekExists = data?.some((course) => course.weekNo === week);
+    if (weekExists) {
+      toast.error("Week already exists in Plan");
+      return;
+    }
+
     try {
-      var res = await AddCoursePlan(data);
+      var res = await AddCoursePlan(weekData);
 
       if (res) {
         setStateChanges(true);
@@ -184,7 +191,7 @@ export default function Courseplan() {
       toast.error("Please fill in all fields.");
       return;
     }
-    handleeditModalclose();
+
     const updatedData = {
       courseId: id,
       id: editRowId,
@@ -194,7 +201,12 @@ export default function Courseplan() {
       topicCovered: editedtopic,
       activities: editedactivity,
     };
+    const existingWeek = data.find((item) => item.weekNo === editedweek);
 
+    if (existingWeek && existingWeek.id !== editRowId) {
+      toast.error("Week You are trying to add is already exist.");
+      return;
+    }
     console.log("Updated ID", updatedData);
     try {
       var res = await UpdateCoursePlan(updatedData);
@@ -206,6 +218,7 @@ export default function Courseplan() {
     } catch (error) {
       console.log("Error", error);
     }
+    handleeditModalclose();
   };
   return (
     // style={{height:'531px'}}
