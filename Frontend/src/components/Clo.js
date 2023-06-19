@@ -23,7 +23,7 @@ export default function Clo() {
         if (calculatedCloData.data.length > 0) {
           const extractedCloIds = Object.keys(
             calculatedCloData.data[0].cloAchievements
-          );
+          ).filter((cloId) => cloId !== "0");
           setCloIds(extractedCloIds);
         }
 
@@ -82,10 +82,9 @@ export default function Clo() {
                 <th style={{ top: "0px", width: "320px" }} className="mt-0">
                   Name
                 </th>
-
                 {cloIds?.map((cloId) => (
                   <th style={{ top: "0px" }} key={cloId}>
-                    {cloData?.[0]?.cloAchievements[cloId]?.totalMarks}
+                    {Number(cloData?.[0]?.cloAchievements[cloId]?.totalMarks).toFixed(2)}
                   </th>
                 ))}
               </tr>
@@ -94,19 +93,14 @@ export default function Clo() {
                   <td>{index + 1}</td>
                   <td>{student.roll_no}</td>
                   <td>{student.name}</td>
-
                   {cloIds.map((cloId) => (
                     <td
                       key={cloId}
-                      className={
-                       
-                           "text-success"
-                      }
+                      className={"text-success"}
                     >
                       {student.cloAchievements[cloId] ? (
                         <>
-                          {student.cloAchievements[cloId].obtainedMarks
-                           }
+                          {Number(student.cloAchievements[cloId].obtainedMarks).toFixed(2)}
                         </>
                       ) : (
                         "-"

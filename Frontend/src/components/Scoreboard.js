@@ -1,6 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { getMarkSheet, updateGrades, getCourseById } from "../apiCalls";
 import { useParams } from "react-router-dom";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+import html2canvas from "html2canvas";
 import { Card } from "@mui/material";
 import Chip from "@mui/material/Chip";
 import { Stack } from "@mui/system";
@@ -17,6 +20,10 @@ import Menue from "./Menue";
 export default function Scoreboard() {
   const [updatedMarks, setUpdatedMarks] = React.useState([]);
   const [course, setCourse] = React.useState([]);
+  var assesmentTotalMarks = 0;
+  const tableRef = useRef(null);
+  const tableContainerRef = useRef(null);
+
   // const [totalGrandtotal, settotalGrandtotal] = React.useState([]);
   var totalGrandtotal = 0.0;
   const [changedMarks, setChangedMarks] = React.useState([]);
@@ -199,6 +206,31 @@ export default function Scoreboard() {
       console.log("Error", error);
     }
   };
+
+  const handleExportPDF = () => {
+    const tableContainer = tableContainerRef.current;
+    tableContainer.scrollLeft = 0;
+    tableContainer.scrollTop = 0;
+
+    const dpi = 300; // Increase DPI for higher resolution
+    const scale = dpi / 96; // Adjust scale factor based on DPI
+
+    html2canvas(tableRef.current, { scrollX: -window.scrollX, scale: scale })
+      .then((canvas) => {
+        const pdf = new jsPDF("l", "pt", "a4");
+        const imgData = canvas.toDataURL("image/png");
+
+        const imgWidth = pdf.internal.pageSize.getWidth();
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+        pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight, null, "FAST"); // Use "FAST" option for better rendering
+        pdf.save(course.name + " - " + course.courseType + "-scoreboard.pdf");
+      })
+      .catch((error) => {
+        console.error("Error generating PDF: ", error);
+      });
+  };
+
   return (
     <div>
       <div className="m-5">
@@ -220,42 +252,121 @@ export default function Scoreboard() {
           <div className="row">
             <div className="col-md-12 d-flex justify-content-between">
               <p className="scoreboardheading">Scoreboard</p>
-              <button
-                className="btn btn-success btn-sm "
-                onClick={() => handleUpdateChanges()}
-              >
-                Save Changes
-              </button>
+              <div>
+                <button
+                  className="btn mx-3 btn-success p-3 "
+                  onClick={() => handleUpdateChanges()}
+                >
+                  Save Changes
+                </button>
+                <button
+                  className="btn btn-success p-3 "
+                  onClick={handleExportPDF}
+                >
+                  Export to PDF
+                </button>
+              </div>
             </div>
           </div>
 
           <div
+            ref={tableContainerRef}
             className="table-responsive py-0 px-0"
             // style={{ paddingTop: 20, textAlign: "center" }}
             style={{ height: "600px", overflow: "auto", textAlign: "center" }}
           >
-            <table className="table table-bordered score4 text-center">
+            <table
+              ref={tableRef}
+              className="table table-bordered score4 text-center"
+            >
               <thead>
                 <tr className="score">
                   <th rowSpan="3" colSpan="3">
                     Participants
                   </th>
-                  {assignments.flatMap((assignment) => {
+                  {assignments.flatMap((assignment, index) => {
                     const assignmentData =
                       obtainedMarks[studentNames[0]][assignment];
                     const questionKeys = Object.keys(assignmentData);
-                    let colSpan = 0;
-                    questionKeys.forEach((question) => {
+                    var colSpan = 0;
+                    var currentAssessmentId = 0;
+                    questionKeys.flatMap((question) => {
                       const questionData = assignmentData[question];
                       const partKeys = Object.keys(questionData);
                       colSpan += partKeys.length > 0 ? partKeys.length : 1;
+                      partKeys.map((part) => {
+                        const partData = questionData[part];
+
+                        currentAssessmentId = partData.assessmentId;
+                      });
                     });
-                    return [<th colSpan={colSpan + 1}>{assignment}</th>];
+
+                    const nextAssignment = assignments[index + 1];
+                    let nextAssessmentId = null;
+
+                    if (nextAssignment) {
+                      const nextAssignmentData =
+                        obtainedMarks[studentNames[0]][nextAssignment];
+                      const nextQuestionKeys = Object.keys(nextAssignmentData);
+
+                      // Find the nextAssessmentId from any of the parts
+                      for (let i = 0; i < nextQuestionKeys.length; i++) {
+                        const questionData =
+                          nextAssignmentData[nextQuestionKeys[i]];
+                        const partKeys = Object.keys(questionData);
+                        const partData = questionData[partKeys[0]]; // Assuming only one part per question
+
+                        if (
+                          partData &&
+                          partData.hasOwnProperty("assessmentId")
+                        ) {
+                          nextAssessmentId = partData.assessmentId;
+                          break;
+                        }
+                      }
+                    }
+                    console.log("nxt", nextAssessmentId);
+                    console.log("nxt crrent", currentAssessmentId);
+                    if (currentAssessmentId != nextAssessmentId) {
+                      return [
+                        <th
+                          style={{
+                            minWidth: "50px",
+
+                            whiteSpace: "nowrap",
+                          }}
+                          colSpan={colSpan}
+                        >
+                          {assignment}
+                        </th>,
+                        <th
+                          style={{
+                            minWidth: "50px",
+
+                            whiteSpace: "nowrap",
+                          }}
+                        ></th>,
+                      ];
+                    }
+                    return [
+                      <th
+                        style={{
+                          minWidth: "50px",
+
+                          whiteSpace: "nowrap",
+                        }}
+                        colSpan={colSpan}
+                      >
+                        {assignment}
+                      </th>,
+                    ];
                   })}
+
                   <th></th>
                 </tr>
                 <tr className="score1 ">
-                  {assignments.flatMap((assignment) => {
+                  {assignments.flatMap((assignment, index) => {
+                    var currentAssessmentId = 0;
                     const assignmentData =
                       obtainedMarks[studentNames[0]][assignment];
                     const questionKeys = Object.keys(assignmentData);
@@ -264,44 +375,98 @@ export default function Scoreboard() {
                       const questionData = assignmentData[question];
 
                       const partKeys = Object.keys(questionData);
+                      partKeys.map((part) => {
+                        const partData = questionData[part];
+
+                        currentAssessmentId = partData.assessmentId;
+                      });
                       const colSpan = partKeys.length > 0 ? partKeys.length : 1;
                       return <th colSpan={colSpan}>{"Q" + question}</th>;
                     });
 
-                    return [
-                      ...columns,
-                      <>
-                        <th></th>
-                      </>,
-                    ];
+                    const nextAssignment = assignments[index + 1];
+                    let nextAssessmentId = null;
+
+                    if (nextAssignment) {
+                      const nextAssignmentData =
+                        obtainedMarks[studentNames[0]][nextAssignment];
+                      const nextQuestionKeys = Object.keys(nextAssignmentData);
+
+                      // Find the nextAssessmentId from any of the parts
+                      for (let i = 0; i < nextQuestionKeys.length; i++) {
+                        const questionData =
+                          nextAssignmentData[nextQuestionKeys[i]];
+                        const partKeys = Object.keys(questionData);
+                        const partData = questionData[partKeys[0]]; // Assuming only one part per question
+
+                        if (
+                          partData &&
+                          partData.hasOwnProperty("assessmentId")
+                        ) {
+                          nextAssessmentId = partData.assessmentId;
+                          break;
+                        }
+                      }
+                    }
+
+                    if (currentAssessmentId !== nextAssessmentId) {
+                      return [...columns, <th></th>];
+                    }
+
+                    return [...columns];
                   })}
                   <th></th>
                 </tr>
                 <tr className="score1">
-                  {assignments.flatMap((assignment) => {
+                  {assignments.flatMap((assignment, index) => {
                     const assignmentData =
                       obtainedMarks[studentNames[0]][assignment];
                     const questionKeys = Object.keys(assignmentData);
 
                     var clo = 0;
-
+                    var currentAssessmentId = 0;
                     const columns = questionKeys.flatMap((question) => {
                       const questionData = assignmentData[question];
                       const partKeys = Object.keys(questionData);
                       const partColumns = partKeys.map((part) => {
                         const partData = questionData[part];
                         clo = partData.clo;
+                        currentAssessmentId = partData.assessmentId;
 
                         return <th>{clo == 0 ? "No Clo" : "Clo " + clo}</th>;
                       });
                       return partColumns;
                     });
-                    return [
-                      ...columns,
-                      <>
-                        <th></th>
-                      </>,
-                    ];
+                    const nextAssignment = assignments[index + 1];
+                    let nextAssessmentId = null;
+
+                    if (nextAssignment) {
+                      const nextAssignmentData =
+                        obtainedMarks[studentNames[0]][nextAssignment];
+                      const nextQuestionKeys = Object.keys(nextAssignmentData);
+
+                      // Find the nextAssessmentId from any of the parts
+                      for (let i = 0; i < nextQuestionKeys.length; i++) {
+                        const questionData =
+                          nextAssignmentData[nextQuestionKeys[i]];
+                        const partKeys = Object.keys(questionData);
+                        const partData = questionData[partKeys[0]]; // Assuming only one part per question
+
+                        if (
+                          partData &&
+                          partData.hasOwnProperty("assessmentId")
+                        ) {
+                          nextAssessmentId = partData.assessmentId;
+                          break;
+                        }
+                      }
+                    }
+
+                    if (currentAssessmentId !== nextAssessmentId) {
+                      return [...columns, <th>Total</th>];
+                    }
+
+                    return [...columns];
                   })}
                   <th></th>
                 </tr>
@@ -310,14 +475,15 @@ export default function Scoreboard() {
                   <th>Roll no.</th>
                   <th>Name</th>
 
-                  {assignments.flatMap((assignment) => {
+                  {assignments.flatMap((assignment, index) => {
+                    console.log(assignment);
                     const assignmentData =
                       obtainedMarks[studentNames[0]][assignment];
                     const questionKeys = Object.keys(assignmentData);
 
                     var assignmentTotal = 0;
                     var assignmentWeightage = 0;
-                    var assesmentId = 0;
+                    var currentAssessmentId = 0;
 
                     const columns = questionKeys.flatMap((question) => {
                       const questionData = assignmentData[question];
@@ -325,10 +491,10 @@ export default function Scoreboard() {
                       const partColumns = partKeys.map((part) => {
                         const partData = questionData[part];
                         const totalMarks = partData.questionTotalMarks;
-                        console.log("Part Data", partData);
                         assignmentTotal = partData.totalMarks;
                         assignmentWeightage = partData.weightage;
-                        assesmentId = partData.assessmentId;
+                        currentAssessmentId = partData.assessmentId;
+
                         return (
                           <th>
                             {part === "null"
@@ -339,35 +505,83 @@ export default function Scoreboard() {
                       });
                       return partColumns;
                     });
-                    totalGrandtotal =
-                      parseFloat(totalGrandtotal) +
-                      parseFloat(assignmentWeightage) /
-                        parseFloat(assessmentCounts["" + assesmentId]);
-                    return [
-                      ...columns,
-                      <th>
-                        Total (
-                        {assignmentWeightage /
-                          assessmentCounts["" + assesmentId]}
-                        )
-                      </th>,
-                    ];
+
+                    const nextAssignment = assignments[index + 1];
+                    let nextAssessmentId = null;
+
+                    if (nextAssignment) {
+                      const nextAssignmentData =
+                        obtainedMarks[studentNames[0]][nextAssignment];
+                      const nextQuestionKeys = Object.keys(nextAssignmentData);
+
+                      // Find the nextAssessmentId from any of the parts
+                      for (let i = 0; i < nextQuestionKeys.length; i++) {
+                        const questionData =
+                          nextAssignmentData[nextQuestionKeys[i]];
+                        const partKeys = Object.keys(questionData);
+                        const partData = questionData[partKeys[0]]; // Assuming only one part per question
+
+                        if (
+                          partData &&
+                          partData.hasOwnProperty("assessmentId")
+                        ) {
+                          nextAssessmentId = partData.assessmentId;
+                          break;
+                        }
+                      }
+                    }
+                    assesmentTotalMarks =
+                      assesmentTotalMarks +
+                      assignmentWeightage /
+                        assessmentCounts["" + currentAssessmentId];
+                    console.log("heading current ok", currentAssessmentId);
+                    console.log("heading next ok", nextAssessmentId);
+
+                    if (currentAssessmentId !== nextAssessmentId) {
+                      console.log(
+                        "G total",
+                        totalGrandtotal +
+                          "+" +
+                          assesmentTotalMarks +
+                          "= " +
+                          parseFloat(totalGrandtotal) +
+                          parseFloat(assesmentTotalMarks)
+                      );
+                      totalGrandtotal =
+                        parseFloat(totalGrandtotal) +
+                        parseFloat(assesmentTotalMarks);
+                      let marks = assesmentTotalMarks;
+                      assesmentTotalMarks = 0;
+                      return [, ...columns, <th>{marks.toFixed(1)}</th>];
+                    }
+
+                    return [...columns];
                   })}
-                  <th>Grand Total ({totalGrandtotal})</th>
+
+                  <th>
+                    Grand Total (
+                    {course?.mainCourse == 0
+                      ? (parseFloat(totalGrandtotal) * 0.75).toFixed(0)
+                      : (parseFloat(totalGrandtotal) * 0.25).toFixed(0)}
+                    )
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {studentNames.map((studentName, index) => {
                   var grandTotal = 0;
+                  var finalGrandTotal = 0;
+                  var totalMarks = 0;
+                  console.log("assignment before");
+
                   return (
                     <tr key={index} className="score2">
                       <td>{index + 1}</td>
                       <td>{studentData[index].rollNo}</td>
                       <td>{studentName}</td>
-                      {assignments.flatMap((assignment) => {
-                        var frequency = 0;
-                        var sameassisment = 0;
-                        var currentAssisment = 0;
+                      {assignments.flatMap((assignment, assIndex) => {
+                        console.log("assignment start");
+
                         const assignmentData =
                           obtainedMarks[studentName][assignment];
                         const questionKeys = Object.keys(assignmentData);
@@ -427,62 +641,107 @@ export default function Scoreboard() {
                         var weightage = 0;
                         var examTotalMarks = 0;
                         var assesmentId = 0;
-                        const totalMarks = questionKeys.reduce(
-                          (total, question) => {
-                            const questionData = assignmentData[question];
-                            const partKeys = Object.keys(questionData);
+                        var nextAssignment = null;
+                        var nextAssessmentId = null;
 
-                            partKeys.forEach((part, index) => {
-                              if (index == 0) {
-                                weightage =
-                                  obtainedMarks[studentName][assignment][
-                                    question
-                                  ][part].weightage;
-                                assesmentId =
-                                  obtainedMarks[studentName][assignment][
-                                    question
-                                  ][part].assessmentId;
-                                examTotalMarks =
-                                  obtainedMarks[studentName][assignment][
-                                    question
-                                  ][part].totalMarks;
+                        totalMarks = questionKeys.reduce((total, question) => {
+                          const questionData = assignmentData[question];
+                          const partKeys = Object.keys(questionData);
+
+                          partKeys.forEach((part, index) => {
+                            if (index == 0) {
+                              weightage =
+                                obtainedMarks[studentName][assignment][
+                                  question
+                                ][part].weightage;
+                              assesmentId =
+                                obtainedMarks[studentName][assignment][
+                                  question
+                                ][part].assessmentId;
+                              examTotalMarks =
+                                obtainedMarks[studentName][assignment][
+                                  question
+                                ][part].totalMarks;
+                            }
+                            nextAssignment = assignments[assIndex + 1];
+                            nextAssessmentId = null;
+                            console.log("Next Assisgment", nextAssignment);
+                            if (nextAssignment) {
+                              const nextAssignmentData =
+                                obtainedMarks[studentName][nextAssignment];
+                              const nextQuestionKeys =
+                                Object.keys(nextAssignmentData);
+                              console.log("Next ", nextAssignmentData);
+                              // Find the nextAssessmentId from any of the parts
+                              for (
+                                let i = 0;
+                                i < nextQuestionKeys.length;
+                                i++
+                              ) {
+                                const questionData =
+                                  nextAssignmentData[nextQuestionKeys[i]];
+                                const partKeys = Object.keys(questionData);
+                                const partData = questionData[partKeys[0]]; // Assuming only one part per question
+
+                                if (
+                                  partData &&
+                                  partData.hasOwnProperty("assessmentId")
+                                ) {
+                                  nextAssessmentId = partData.assessmentId;
+                                  break;
+                                }
                               }
+                            }
 
-                              total =
-                                parseFloat(total) +
-                                parseFloat(
-                                  obtainedMarks[studentName][assignment][
-                                    question
-                                  ][part].obtainedMarks
-                                );
-                            });
-                            return total;
+                            total =
+                              parseFloat(total) +
+                              parseFloat(
+                                obtainedMarks[studentName][assignment][
+                                  question
+                                ][part].obtainedMarks
+                              );
+                          });
+                          console.log("assignment befre total");
 
-                            // return Object.keys(obtainedMarks[studentName][assignment]).length;
-                          },
-                          0
-                        );
+                          return total;
+                          // return Object.keys(obtainedMarks[studentName][assignment]).length;
+                        }, 0);
+
                         grandTotal =
                           grandTotal +
                           (totalMarks / examTotalMarks) *
                             (weightage / assessmentCounts["" + assesmentId]);
-                        columns.push(
-                          <td
-                            className="text-white"
-                            style={{
-                              minWidth: "50px",
-                              backgroundColor: "#346448",
-                            }}
-                          >
-                            {(totalMarks / examTotalMarks) *
-                              (
-                                weightage / assessmentCounts["" + assesmentId]
-                              ).toFixed(1)}
-                          </td>
-                        );
+
+                        if (
+                          parseInt(assesmentId) != parseInt(nextAssessmentId)
+                        ) {
+                          finalGrandTotal =
+                            parseFloat(finalGrandTotal) +
+                            parseFloat(grandTotal);
+                          let marks = grandTotal;
+                          grandTotal = 0;
+                          return [
+                            ...columns,
+                            <td
+                              className="text-white"
+                              style={{
+                                minWidth: "50px",
+                                backgroundColor: "#346448",
+                              }}
+                            >
+                              {marks}
+                            </td>,
+                            ,
+                          ];
+                        }
+                        // grandTotal=0;
                         return columns;
                       })}
-                      <td>{grandTotal.toFixed(1)}</td>
+                      <td>
+                        {course?.mainCourse == 0
+                          ? (parseFloat(finalGrandTotal) * 0.75).toFixed(1)
+                          : (parseFloat(finalGrandTotal) * 0.25).toFixed(1)}
+                      </td>
                     </tr>
                   );
                 })}
