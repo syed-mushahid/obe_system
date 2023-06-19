@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 19, 2023 at 07:37 AM
+-- Generation Time: Jun 19, 2023 at 10:56 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -41,11 +41,12 @@ CREATE TABLE `assessment` (
 
 INSERT INTO `assessment` (`id`, `name`, `courseId`, `marks`, `weightage`) VALUES
 (27, 'viva', 1, NULL, 20),
-(29, 'Assignment', 1, NULL, 50),
+(29, 'Assignment', 1, NULL, 30),
 (31, 'Quiz', 2, NULL, 10),
 (32, 'project', 2, NULL, 30),
 (33, 'Quiz', 1, NULL, 30),
-(34, 'lab work', 2, NULL, 10);
+(34, 'lab work', 2, NULL, 10),
+(35, 'Midterm', 1, NULL, 20);
 
 -- --------------------------------------------------------
 
@@ -159,18 +160,20 @@ INSERT INTO `attendance` (`id`, `studentId`, `courseId`, `status`, `date`) VALUE
 CREATE TABLE `clo` (
   `id` int(200) NOT NULL,
   `clo` varchar(2000) DEFAULT NULL,
-  `courseId` int(200) DEFAULT NULL
+  `courseId` int(200) DEFAULT NULL,
+  `ploId` int(11) DEFAULT NULL,
+  `cloKpi` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `clo`
 --
 
-INSERT INTO `clo` (`id`, `clo`, `courseId`) VALUES
-(1, 'Identify appropriate software process models for real-world problems.', 2),
-(2, 'Elaborate user stories using usecase and activity diagrams.', 2),
-(3, 'Design the elaborated user stories using simple design techniques', 1),
-(4, 'Create test cases for the elaborated user stories.', 1);
+INSERT INTO `clo` (`id`, `clo`, `courseId`, `ploId`, `cloKpi`) VALUES
+(1, 'Identify appropriate software process models for real-world problems.', 2, 1, 50),
+(2, 'Elaborate user stories using usecase and activity diagrams.', 2, 2, 60),
+(3, 'Design the elaborated user stories using simple design techniques', 1, 1, 60),
+(4, 'Create test cases for the elaborated user stories.', 1, 1, 50);
 
 -- --------------------------------------------------------
 
@@ -242,24 +245,9 @@ CREATE TABLE `exam` (
 --
 
 INSERT INTO `exam` (`id`, `examName`, `courseId`, `assessmentId`, `totalMarks`) VALUES
-(104, 'Assignments ', 1, 17, 10),
-(105, 'Assignments 2', 1, 17, 20),
-(106, 'Midterm ', 1, 19, 10),
-(107, 'Assignment ', 1, 29, 10),
-(108, 'Assignment 2', 1, 29, 20),
-(109, 'Assignment 3', 1, 29, 10),
-(110, 'Quiz ', 1, 33, 20),
-(111, 'Quiz ', 2, 31, 20),
-(112, 'Quiz 2', 2, 31, 20),
-(113, 'lab work ', 2, 34, 10),
-(114, 'Quiz 2', 1, 33, 10),
-(115, 'Assignment 4', 1, 29, 10),
-(116, 'Quiz 3', 1, 33, 10),
-(117, 'Quiz 4', 1, 33, 10),
-(118, 'viva ', 1, 27, 10),
-(119, 'viva 2', 1, 27, 10),
-(120, 'Assignment 5', 1, 29, 10),
-(121, 'Quiz 5', 1, 33, 20);
+(122, 'Quiz ', 1, 33, 20),
+(123, 'Assignment ', 1, 29, 20),
+(124, 'Midterm ', 1, 35, 30);
 
 -- --------------------------------------------------------
 
@@ -309,7 +297,13 @@ INSERT INTO `examquestion` (`id`, `questionNumber`, `examId`, `cloId`, `marks`) 
 (225, 1, 119, 4, 10),
 (226, 1, 120, 0, 10),
 (227, 1, 121, 4, 10),
-(228, 2, 121, 3, 10);
+(228, 2, 121, 3, 10),
+(229, 1, 122, 3, 10),
+(230, 2, 122, 4, 10),
+(231, 1, 123, 0, 15),
+(232, 2, 123, 4, 5),
+(233, 1, 124, 3, 10),
+(234, 2, 124, 0, 20);
 
 -- --------------------------------------------------------
 
@@ -353,61 +347,66 @@ CREATE TABLE `gradding` (
 --
 
 INSERT INTO `gradding` (`id`, `roll_no`, `courseId`, `examId`, `questionId`, `partId`, `cloId`, `obtainedMarks`, `totalMarks`) VALUES
-(1629, 13629, 1, 115, 220, 260, 3, 0, '5'),
-(1630, 13629, 1, 115, 220, 261, 3, 0, '5'),
-(1631, 13627, 1, 115, 220, 260, 3, 0, '5'),
-(1632, 13627, 1, 115, 220, 261, 3, 0, '5'),
-(1633, 12284, 1, 115, 220, 260, 3, 2, '5'),
-(1634, 12284, 1, 115, 220, 261, 3, 5, '5'),
-(1635, 2284, 1, 115, 220, 260, 3, 0, '5'),
-(1636, 2284, 1, 115, 220, 261, 3, 0, '5'),
-(1637, 12332, 1, 115, 220, 260, 3, 5, '5'),
-(1638, 12332, 1, 115, 220, 261, 3, 4, '5'),
-(1639, 13629, 1, 116, 221, 262, 3, 0, '6'),
-(1640, 13629, 1, 116, 221, 263, 4, 0, '4'),
-(1641, 13627, 1, 116, 221, 262, 3, 0, '6'),
-(1642, 13627, 1, 116, 221, 263, 4, 0, '4'),
-(1643, 12284, 1, 116, 221, 262, 3, 0, '6'),
-(1644, 12284, 1, 116, 221, 263, 4, 0, '4'),
-(1645, 2284, 1, 116, 221, 262, 3, 0, '6'),
-(1646, 2284, 1, 116, 221, 263, 4, 0, '4'),
-(1647, 12332, 1, 116, 221, 262, 3, 3, '6'),
-(1648, 12332, 1, 116, 221, 263, 4, 0, '4'),
-(1649, 13629, 1, 117, 222, NULL, 3, 0, '10'),
-(1650, 13627, 1, 117, 222, NULL, 3, 0, '10'),
-(1651, 12284, 1, 117, 222, NULL, 3, 0, '10'),
-(1652, 2284, 1, 117, 222, NULL, 3, 0, '10'),
-(1653, 12332, 1, 117, 222, NULL, 3, 0, '10'),
-(1654, 13629, 1, 118, 223, NULL, 3, 0, '5'),
-(1655, 13627, 1, 118, 223, NULL, 3, 0, '5'),
-(1656, 12284, 1, 118, 223, NULL, 3, 0, '5'),
-(1657, 2284, 1, 118, 223, NULL, 3, 0, '5'),
-(1658, 12332, 1, 118, 223, NULL, 3, 0, '5'),
-(1659, 13629, 1, 118, 224, NULL, 3, 0, '5'),
-(1660, 13627, 1, 118, 224, NULL, 3, 0, '5'),
-(1661, 12284, 1, 118, 224, NULL, 3, 0, '5'),
-(1662, 2284, 1, 118, 224, NULL, 3, 0, '5'),
-(1663, 12332, 1, 118, 224, NULL, 3, 0, '5'),
-(1664, 13629, 1, 119, 225, NULL, 4, 0, '10'),
-(1665, 13627, 1, 119, 225, NULL, 4, 0, '10'),
-(1666, 12284, 1, 119, 225, NULL, 4, 0, '10'),
-(1667, 2284, 1, 119, 225, NULL, 4, 0, '10'),
-(1668, 12332, 1, 119, 225, NULL, 4, 0, '10'),
-(1669, 13629, 1, 120, 226, NULL, 0, 0, '10'),
-(1670, 13627, 1, 120, 226, NULL, 0, 0, '10'),
-(1671, 12284, 1, 120, 226, NULL, 0, 10, '10'),
-(1672, 2284, 1, 120, 226, NULL, 0, 0, '10'),
-(1673, 12332, 1, 120, 226, NULL, 0, 0, '10'),
-(1674, 13629, 1, 121, 227, NULL, 4, 0, '10'),
-(1675, 13627, 1, 121, 227, NULL, 4, 0, '10'),
-(1676, 12284, 1, 121, 227, NULL, 4, 0, '10'),
-(1677, 2284, 1, 121, 227, NULL, 4, 0, '10'),
-(1678, 12332, 1, 121, 227, NULL, 4, 0, '10'),
-(1679, 13629, 1, 121, 228, NULL, 3, 0, '10'),
-(1680, 13627, 1, 121, 228, NULL, 3, 0, '10'),
-(1681, 12284, 1, 121, 228, NULL, 3, 0, '10'),
-(1682, 2284, 1, 121, 228, NULL, 3, 0, '10'),
-(1683, 12332, 1, 121, 228, NULL, 3, 0, '10');
+(1684, 13629, 1, 122, 229, NULL, 3, 0, '10'),
+(1685, 13627, 1, 122, 229, NULL, 3, 0, '10'),
+(1686, 12284, 1, 122, 229, NULL, 3, 10, '10'),
+(1687, 2284, 1, 122, 229, NULL, 3, 0, '10'),
+(1688, 12332, 1, 122, 229, NULL, 3, 10, '10'),
+(1689, 13629, 1, 122, 230, NULL, 4, 6, '10'),
+(1690, 13627, 1, 122, 230, NULL, 4, 0, '10'),
+(1691, 12284, 1, 122, 230, NULL, 4, 10, '10'),
+(1692, 2284, 1, 122, 230, NULL, 4, 0, '10'),
+(1693, 12332, 1, 122, 230, NULL, 4, 10, '10'),
+(1694, 13629, 1, 123, 232, NULL, 4, 5, '5'),
+(1695, 13627, 1, 123, 232, NULL, 4, 0, '5'),
+(1696, 12284, 1, 123, 232, NULL, 4, 0, '5'),
+(1697, 2284, 1, 123, 232, NULL, 4, 3, '5'),
+(1698, 12332, 1, 123, 232, NULL, 4, 5, '5'),
+(1699, 13629, 1, 123, 231, 264, 3, 2, '10'),
+(1700, 13629, 1, 123, 231, 265, 3, 5, '5'),
+(1701, 13627, 1, 123, 231, 264, 3, 4, '10'),
+(1702, 13627, 1, 123, 231, 265, 3, 0, '5'),
+(1703, 12284, 1, 123, 231, 264, 3, 10, '10'),
+(1704, 12284, 1, 123, 231, 265, 3, 4, '5'),
+(1705, 2284, 1, 123, 231, 264, 3, 0, '10'),
+(1706, 2284, 1, 123, 231, 265, 3, 5, '5'),
+(1707, 12332, 1, 123, 231, 264, 3, 7, '10'),
+(1708, 12332, 1, 123, 231, 265, 3, 5, '5'),
+(1709, 13629, 1, 124, 233, NULL, 3, 0, '10'),
+(1710, 13627, 1, 124, 233, NULL, 3, 0, '10'),
+(1711, 12284, 1, 124, 233, NULL, 3, 10, '10'),
+(1712, 2284, 1, 124, 233, NULL, 3, 0, '10'),
+(1713, 12332, 1, 124, 233, NULL, 3, 5, '10'),
+(1714, 13629, 1, 124, 234, 266, 4, 0, '10'),
+(1715, 13629, 1, 124, 234, 267, 3, 0, '10'),
+(1716, 13627, 1, 124, 234, 266, 4, 0, '10'),
+(1717, 13627, 1, 124, 234, 267, 3, 0, '10'),
+(1718, 12284, 1, 124, 234, 266, 4, 0, '10'),
+(1719, 12284, 1, 124, 234, 267, 3, 0, '10'),
+(1720, 2284, 1, 124, 234, 266, 4, 0, '10'),
+(1721, 2284, 1, 124, 234, 267, 3, 0, '10'),
+(1722, 12332, 1, 124, 234, 266, 4, 10, '10'),
+(1723, 12332, 1, 124, 234, 267, 3, 10, '10');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `plo`
+--
+
+CREATE TABLE `plo` (
+  `id` int(11) NOT NULL,
+  `plo` varchar(200) DEFAULT NULL,
+  `ploKpi` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `plo`
+--
+
+INSERT INTO `plo` (`id`, `plo`, `ploKpi`) VALUES
+(1, 'title of plo', 50),
+(2, 'title of plo', 60);
 
 -- --------------------------------------------------------
 
@@ -493,7 +492,11 @@ INSERT INTO `questionpart` (`id`, `examQuestionId`, `partNumber`, `cloId`, `mark
 (260, 220, 1, 3, 5),
 (261, 220, 2, 3, 5),
 (262, 221, 1, 3, 6),
-(263, 221, 2, 4, 4);
+(263, 221, 2, 4, 4),
+(264, 231, 1, 3, 10),
+(265, 231, 2, 3, 5),
+(266, 234, 1, 4, 10),
+(267, 234, 2, 3, 10);
 
 -- --------------------------------------------------------
 
@@ -612,6 +615,12 @@ ALTER TABLE `gradding`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `plo`
+--
+ALTER TABLE `plo`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `questionpart`
 --
 ALTER TABLE `questionpart`
@@ -637,7 +646,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `assessment`
 --
 ALTER TABLE `assessment`
-  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `attendance`
@@ -661,13 +670,13 @@ ALTER TABLE `courseplan`
 -- AUTO_INCREMENT for table `exam`
 --
 ALTER TABLE `exam`
-  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
+  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
 
 --
 -- AUTO_INCREMENT for table `examquestion`
 --
 ALTER TABLE `examquestion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=229;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=235;
 
 --
 -- AUTO_INCREMENT for table `extraattendance`
@@ -679,13 +688,19 @@ ALTER TABLE `extraattendance`
 -- AUTO_INCREMENT for table `gradding`
 --
 ALTER TABLE `gradding`
-  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1684;
+  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1724;
+
+--
+-- AUTO_INCREMENT for table `plo`
+--
+ALTER TABLE `plo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `questionpart`
 --
 ALTER TABLE `questionpart`
-  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=264;
+  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=268;
 
 --
 -- AUTO_INCREMENT for table `student`

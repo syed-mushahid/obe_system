@@ -314,15 +314,17 @@ const Dashboard = () => {
                           </Avatar>
                         </div>
                         <div className="col-11 mt-2">
-                          <h6
-                            style={{
-                              color: "#346448",
-                              fontWeight: "bold",
-                              font: "Mplus 1p",
-                            }}
-                          >
-                            Course Feedback
-                          </h6>
+                          <Link to="/feedback">
+                            <h6
+                              style={{
+                                color: "#346448",
+                                fontWeight: "bold",
+                                font: "Mplus 1p",
+                              }}
+                            >
+                              Course Feedback
+                            </h6>
+                          </Link>
                           <p style={{ fontSize: "13px", font: "Mplus 1p" }}>
                             Give course feedback.
                           </p>
@@ -330,7 +332,7 @@ const Dashboard = () => {
                       </div>
                     </TableCell>
                   </TableRow>
-                  <TableRow>
+                  {/* <TableRow>
                     <TableCell>
                       <div className=" row  ">
                         <div className="col-1" style={{ paddingLeft: "30px" }}>
@@ -360,8 +362,8 @@ const Dashboard = () => {
                         </div>
                       </div>
                     </TableCell>
-                  </TableRow>
-                  <TableRow>
+                  </TableRow> */}
+                  {/* <TableRow>
                     <TableCell>
                       <div className=" row  ">
                         <div className="col-1" style={{ paddingLeft: "30px" }}>
@@ -376,23 +378,25 @@ const Dashboard = () => {
                           </Avatar>
                         </div>
                         <div className="col-11 mt-2">
-                          <h6
-                            style={{
-                              color: "#346448",
-                              fontWeight: "bold",
-                              font: "Mplus 1p",
-                            }}
-                          >
-                            Student Attendance
-                          </h6>
+                          <Link to="/">
+                            <h6
+                              style={{
+                                color: "#346448",
+                                fontWeight: "bold",
+                                font: "Mplus 1p",
+                              }}
+                            >
+                              Student Attendance
+                            </h6>
+                          </Link>
                           <p style={{ fontSize: "13px", font: "Mplus 1p" }}>
                             Mark Student Attendance.
                           </p>
                         </div>
                       </div>
                     </TableCell>
-                  </TableRow>
-                  <TableRow>
+                  </TableRow> */}
+                  {/* <TableRow>
                     <TableCell>
                       <div className=" row  ">
                         <div className="col-1" style={{ paddingLeft: "30px" }}>
@@ -422,7 +426,7 @@ const Dashboard = () => {
                         </div>
                       </div>
                     </TableCell>
-                  </TableRow>
+                  </TableRow> */}
                 </TableBody>
               </Table>
             </Grid>
