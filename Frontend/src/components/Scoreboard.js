@@ -550,9 +550,10 @@ export default function Scoreboard() {
                       totalGrandtotal =
                         parseFloat(totalGrandtotal) +
                         parseFloat(assesmentTotalMarks);
-                      let marks = assesmentTotalMarks;
+                      let marks = Number(assesmentTotalMarks).toFixed(1);
                       assesmentTotalMarks = 0;
-                      return [, ...columns, <th>{marks.toFixed(1)}</th>];
+                      return [, ...columns, <th>{parseFloat(marks).toFixed(1)}</th>
+                    ];
                     }
 
                     return [...columns];
@@ -561,8 +562,8 @@ export default function Scoreboard() {
                   <th>
                     Grand Total (
                     {course?.mainCourse == 0
-                      ? (parseFloat(totalGrandtotal) * 0.75).toFixed(0)
-                      : (parseFloat(totalGrandtotal) * 0.25).toFixed(0)}
+                      ? Number(parseFloat(totalGrandtotal) * 0.75).toFixed(0)
+                      : Number(parseFloat(totalGrandtotal) * 0.25).toFixed(0)}
                     )
                   </th>
                 </tr>
@@ -596,44 +597,38 @@ export default function Scoreboard() {
                                 "-"
                               ) : (
                                 <input
-                                  type="number"
-                                  value={
-                                    obtainedMarks[studentName][assignment][
-                                      question
-                                    ][part].obtainedMarks
-                                  }
-                                  onChange={(event) => {
-                                    const inputValue = event.target.value;
-                                    const validInput = /^\d*$/.test(inputValue)
-                                      ? inputValue
-                                      : "0";
-                                    handleMarkChange(
-                                      {
-                                        ...event,
-                                        target: {
-                                          ...event.target,
-                                          value: validInput,
-                                        },
+                                type="number"
+                                value={obtainedMarks[studentName][assignment][question][part].obtainedMarks}
+                                onChange={(event) => {
+                                  const inputValue = event.target.value;
+                                  const validInput = /^\d*\.?\d*$/.test(inputValue) ? inputValue : "0";
+                                  handleMarkChange(
+                                    {
+                                      ...event,
+                                      target: {
+                                        ...event.target,
+                                        value: validInput,
                                       },
-                                      studentName,
-                                      assignment,
-                                      question,
-                                      part
-                                    );
-                                  }}
-                                  min={0}
-                                  onKeyDown={(event) => {
-                                    const key = event.key;
-                                    if (
-                                      key === "-" || // Prevent entering negative numbers
-                                      key === "." || // Prevent entering decimal numbers
-                                      (key === "e" &&
-                                        event.target.value.includes("e")) // Prevent entering exponential notation
-                                    ) {
-                                      event.preventDefault();
-                                    }
-                                  }}
-                                />
+                                    },
+                                    studentName,
+                                    assignment,
+                                    question,
+                                    part
+                                  );
+                                }}
+                                min={0}
+                                step="any"
+                                onKeyDown={(event) => {
+                                  const key = event.key;
+                                  if (
+                                    key === "-" || // Prevent entering negative numbers
+                                    (key === "e" && event.target.value.includes("e")) // Prevent entering exponential notation
+                                  ) {
+                                    event.preventDefault();
+                                  }
+                                }}
+                              />
+
                               )}
                             </td>
                           ));
@@ -729,7 +724,7 @@ export default function Scoreboard() {
                                 backgroundColor: "#346448",
                               }}
                             >
-                              {marks}
+                              {Number(marks).toFixed(1)}
                             </td>,
                             ,
                           ];
@@ -739,8 +734,8 @@ export default function Scoreboard() {
                       })}
                       <td>
                         {course?.mainCourse == 0
-                          ? (parseFloat(finalGrandTotal) * 0.75).toFixed(1)
-                          : (parseFloat(finalGrandTotal) * 0.25).toFixed(1)}
+                          ? Number(parseFloat(finalGrandTotal) * 0.75).toFixed(1)
+                          : Number(parseFloat(finalGrandTotal) * 0.25).toFixed(1)}
                       </td>
                     </tr>
                   );

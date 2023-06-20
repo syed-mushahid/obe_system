@@ -100,6 +100,10 @@ export default function Courseplan() {
     weekData.fromDate.setDate(weekData.fromDate.getDate() + 1);
     weekData.toDate.setDate(weekData.toDate.getDate() + 1);
 
+    if (weekData.toDate < weekData.fromDate) {
+      toast.error("End date should be greater than start date");
+      return;
+    }
     // Convert the dates back to string format if needed
     weekData.fromDate = weekData.fromDate.toISOString().substring(0, 10);
     weekData.toDate = weekData.toDate.toISOString().substring(0, 10);
@@ -205,6 +209,11 @@ export default function Courseplan() {
 
     if (existingWeek && existingWeek.id !== editRowId) {
       toast.error("Week You are trying to add is already exist.");
+      return;
+    }
+
+    if (editedto < editedfrom) {
+      toast.error("End date should be greater than start date");
       return;
     }
     console.log("Updated ID", updatedData);

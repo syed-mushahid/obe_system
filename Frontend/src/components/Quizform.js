@@ -67,12 +67,13 @@ const Quizform = () => {
 
             return;
           }
-          setCount("");
+          setCount(-1);
         } else {
           setCount(res.data.count + 1);
         }
         setFormInfo(res.data);
       }
+      console.log("Count", count);
     } catch (error) {
       console.log("Error", error);
     }
@@ -87,13 +88,7 @@ const Quizform = () => {
         questionNumber: 1,
         clo: "", // input type number
         marks: "", // input type number
-        parts: [
-          {
-            part: 1,
-            clo: "",
-            marks: "",
-          },
-        ],
+        parts: [],
       },
     ],
   });
@@ -221,8 +216,7 @@ const Quizform = () => {
 
   const handleCloChange = (event, questionIndex, partIndex, isQuestion) => {
     const newQuiz = { ...quiz };
-    console.log("Question Index", questionIndex);
-    console.log("Part Index", partIndex);
+
     if (isQuestion) {
       if (
         newQuiz.questions[questionIndex].parts.some((part) => part.clo !== 0)
@@ -268,8 +262,14 @@ const Quizform = () => {
       );
       return;
     }
-    const count = formInfo?.count;
-    const incrementedCount = count ? parseInt(count, 10) + 1 : "";
+    if (quiz.totalMarks <= 0 || !quiz.totalMarks) {
+      toast.error("Exam Total Marks cannot be empty or zero.");
+      return;
+    }
+    var incrementedCount = "";
+    if (parseInt(count) >= 0) {
+      incrementedCount = parseInt(count);
+    }
 
     ////To check if total marks is exactly equals to all marks of questions and thier parts
     var currentTotal = 0;
@@ -356,7 +356,7 @@ const Quizform = () => {
         >
           <Grid item md={12}>
             <h6 align="center" className="quizheading">
-              {formInfo?.assessmentData[0].name} {count}
+              {formInfo?.assessmentData[0].name} {count > 0 ? count : ""}
             </h6>
           </Grid>
           <Grid

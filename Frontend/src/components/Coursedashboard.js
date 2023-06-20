@@ -19,7 +19,7 @@ import CSVReader from "react-csv-reader";
 import Modal from "@mui/material/Modal";
 import { Button } from "@mui/material";
 import { useParams } from "react-router-dom";
-import { enrollStudent,getClo } from "../apiCalls";
+import { enrollStudent, getClo } from "../apiCalls";
 import { toast } from "react-toastify";
 import Menue from "./Menue";
 
@@ -66,23 +66,19 @@ export default function Coursedashboard() {
     p: 4,
   };
 
-useEffect(()=>{
-
-
-fetchClo();
-},[])
-  const fetchClo=async()=>{
-
-    try{
-var res=await getClo({id:id});
-if(res){
-setClos(res.data);
-}
+  useEffect(() => {
+    fetchClo();
+  }, []);
+  const fetchClo = async () => {
+    try {
+      var res = await getClo({ id: id });
+      if (res) {
+        setClos(res.data);
+      }
+    } catch (error) {
+      console.log(error);
     }
-    catch(error){
-console.log(error);
-    }
-  }
+  };
   const handleFileChange = (data) => {
     setStudents("");
     setStudents(data);
@@ -95,6 +91,7 @@ console.log(error);
       var res = await enrollStudent({ students: students, courseId: id });
       if (res) {
         toast.success("Students Enrolled Successfully");
+        handleCloseenroll();
       }
     } catch (error) {
       toast.error("Error cannot enroll students.");
@@ -325,16 +322,9 @@ console.log(error);
                   <div className="clo-md-12 d-flex justify-content-center clodescription">
                     {/* <p>4. Create test cases for the elaborated user stories. [C,3] [PLO-2] </p> */}
                     <ul>
-                     {
-                      clos.map((clo)=>{
-
-                        return(
-                          <li>
-                           {clo.clo}
-                          </li>
-                        )
-                      })
-                     }
+                      {clos.map((clo) => {
+                        return <li>{clo.clo}</li>;
+                      })}
                     </ul>
                   </div>
                 </div>
