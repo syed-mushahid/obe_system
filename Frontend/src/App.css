@@ -17,7 +17,7 @@ body {
 }
 .low-achievement {
   background-color: rgba(233, 53, 53, 0.767) !important;
-  color:white !important;
+  color: white !important;
 }
 
 .App-header {
@@ -760,4 +760,11 @@ border-bottom: 1px solid #346448;
   line-height: 30px;
   text-align: center;
   color: var(--primary);
+}
+.button:hover {
+  background-color: var(--primary) !important;
+}
+.css-jy1fyq-MuiButtonBase-root-MuiButton-root:hover{
+  background-color: var(--primary) !important;
+
 }

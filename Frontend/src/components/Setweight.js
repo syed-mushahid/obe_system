@@ -44,13 +44,13 @@ const Setweight = () => {
     "Assignment",
     "Midterm",
     "Final Term",
-    "project",
-    "viva",
-    "lab work",
-    "lab exam",
-    "lab quiz",
-    "lab assignment",
-    "presentation",
+    "Project",
+    "Viva",
+    "Lab work",
+    "Lab exam",
+    "Lab quiz",
+    "Lab assignment",
+    "Presentation",
   ];
   useEffect(() => {
     setStateChanged(false);

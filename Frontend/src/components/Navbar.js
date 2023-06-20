@@ -71,7 +71,7 @@ const Navbar = () => {
               </li> */}
               <li className="nav-item ">
                 <Link className="nav-link" to="/profile">
-                  <img src={user?.image} className="me-2 avatar" alt="Avatar" />
+                  <img src={user?.image?user?.image:sir} className="me-2 avatar" alt="Avatar" />
 
                   {user?.name}
                 </Link>

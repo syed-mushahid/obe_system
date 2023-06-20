@@ -95,7 +95,7 @@ const Dashboard = () => {
               xs={12}
               sx={{ marginTop: "2px", marginLeft: "25px", marginBottom: "2px" }}
             >
-              <img className="teacherpic" src={user?.image} alt="teacher"></img>
+              <img className="teacherpic" src={user?.image?user?.image:sir} alt="teacher"></img>
             </Grid>
             <Grid item md={3} className="mt-2" xs={12}>
               <h3 className="heading">{user?.name}</h3>

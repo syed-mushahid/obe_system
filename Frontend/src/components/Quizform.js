@@ -56,7 +56,9 @@ const Quizform = () => {
         console.log("Success", res);
         if (
           res.data.assessmentData[0].name == "Midterm" ||
-          res.data.assessmentData[0].name == "Final Term"
+          res.data.assessmentData[0].name == "Final Term" ||
+          res.data.assessmentData[0].name == "Lab exam" ||
+          res.data.assessmentData[0].name == "Project"
         ) {
           if (res.data.count > 0) {
             toast.error(

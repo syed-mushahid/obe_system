@@ -562,8 +562,8 @@ export default function Scoreboard() {
                   <th>
                     Grand Total (
                     {course?.mainCourse == 0
-                      ? Number(parseFloat(totalGrandtotal) * 0.75).toFixed(0)
-                      : Number(parseFloat(totalGrandtotal) * 0.25).toFixed(0)}
+                      ? Number(parseFloat(totalGrandtotal) * 0.75).toFixed(1)
+                      : Number(parseFloat(totalGrandtotal) * 0.25).toFixed(1)}
                     )
                   </th>
                 </tr>
