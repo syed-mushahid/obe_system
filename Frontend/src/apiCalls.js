@@ -179,8 +179,15 @@ export function calculateClo(data) {
   return api.post("/calculateClo", data);
 }
 
-
 ////Get Clos
 export function getClo(data) {
   return api.post("/getClo", data);
+}
+////Get FeedBack Questions
+export function getQuestions(data) {
+  return api.post("/feedback-questions", data);
+}
+////Save FeedBack
+export function saveFeedback(data) {
+  return api.post("/save-feedback", data);
 }

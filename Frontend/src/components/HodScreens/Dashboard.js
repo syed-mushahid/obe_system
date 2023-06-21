@@ -6,7 +6,14 @@ import { Link, useNavigate } from "react-router-dom";
 export default function HodDashboard() {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
-
+  const buttonStyles = {
+    backgroundColor: "#346448",
+    marginRight: "10.5em",
+    padding: "px 15px",
+    "&:hover": {
+      backgroundColor: "#346448", // Ensures hover doesn't change the color
+    },
+  };
   useEffect(() => {
     // Redirect if user type is not 0
     if (user && user.type !== 0) {
@@ -26,6 +33,7 @@ export default function HodDashboard() {
           <div>
             <Button
               fullWidth
+              style={buttonStyles}
               size="large"
               className="rounded mb-4"
               variant="contained"
@@ -42,6 +50,7 @@ export default function HodDashboard() {
             <div>
               <Button
                 fullWidth
+                style={buttonStyles}
                 size="large"
                 className="rounded mb-4"
                 variant="contained"
@@ -54,6 +63,7 @@ export default function HodDashboard() {
           <Link to="/allcoursesscores">
             <div>
               <Button
+                style={buttonStyles}
                 fullWidth
                 size="large"
                 className="rounded mb-4"

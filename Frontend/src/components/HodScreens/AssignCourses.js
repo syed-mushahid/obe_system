@@ -31,7 +31,14 @@ export default function AssignCourse() {
   //     teacher: "Zahid",
   //   },
   // ]);
-
+  const buttonStyles = {
+    backgroundColor: "#346448",
+    marginRight: "10.5em",
+    padding: "px 15px",
+    "&:hover": {
+      backgroundColor: "#346448", // Ensures hover doesn't change the color
+    },
+  };
   useEffect(() => {
     setstatus(false);
     fetchCourse();
@@ -244,6 +251,7 @@ export default function AssignCourse() {
           <div className="mb-4">
             <Button
               fullWidth
+              style={buttonStyles}
               size="large"
               className="rounded mb-4"
               variant="contained"

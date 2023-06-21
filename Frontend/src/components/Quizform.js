@@ -345,30 +345,28 @@ const Quizform = () => {
           padding: "50px",
           marginTop: "30px",
           marginBottom: "30px",
-          marginLeft: "20%",
-          marginRight: "20%",
+          marginLeft: { xs: "0", sm: "0", md: "20%", lg: "20%" },
+          marginRight: { xs: "0", sm: "0", md: "20%", lg: "20%" },
+          width: { xs: "100%", sm: "100%", md: "60%", lg: "60%" },
         }}
       >
         <Menue />
-        <Grid
-          container
-          spacing={2}
-          justifyContent={"center"}
-          alignItems={"center"}
-        >
-          <Grid item md={12}>
+
+        <Grid container spacing={2} justifyContent="center" alignItems="center">
+          <Grid item xs={12}>
             <h6 align="center" className="quizheading">
               {formInfo?.assessmentData[0].name} {count > 0 ? count : ""}
             </h6>
           </Grid>
           <Grid
             item
-            md={2}
+            xs={12}
+            sm={2}
             className="d-flex justify-content-start quizcontent"
           >
             <p>Total Marks:</p>
           </Grid>
-          <Grid item md={10}>
+          <Grid item xs={12} sm={10}>
             <TextField
               fullWidth
               type="number"
@@ -378,9 +376,9 @@ const Quizform = () => {
               size="small"
               className="inputfield"
               placeholder="Enter Marks"
-            ></TextField>
+            />
           </Grid>
-          <Grid item md={12} className="mt-1">
+          <Grid item xs={12} className="mt-1">
             <div className="row">
               <div className="col mt-1 d-flex justify-content-start quizcontent">
                 <p>Add Questions</p>
@@ -392,172 +390,163 @@ const Quizform = () => {
               </div>
             </div>
           </Grid>
-          {quiz.questions.map((ques, questionIndex) => {
-            return (
-              <>
-                <Grid item md={12} className=" mt-1">
-                  <div className="row">
-                    <div className="col mt-1 d-flex justify-content-start quizcontent">
-                      <p>Question {questionIndex + 1}:</p>
-                    </div>
-                    <div className="col d-flex justify-content-end">
-                      <IconButton
-                        onClick={() => handleRemoveQuestion(questionIndex)}
-                      >
-                        <CancelIcon className="plusiconbutton" />
-                      </IconButton>
-                    </div>
+          {quiz.questions.map((ques, questionIndex) => (
+            <React.Fragment key={questionIndex}>
+              <Grid item xs={12} className="mt-1">
+                <div className="row">
+                  <div className="col mt-1 d-flex justify-content-start quizcontent">
+                    <p>Question {questionIndex + 1}:</p>
                   </div>
-                </Grid>
-                <Grid
-                  item
-                  md={2}
-                  className="mt-1 d-flex justify-content-start quizcontent"
+                  <div className="col d-flex justify-content-end">
+                    <IconButton
+                      onClick={() => handleRemoveQuestion(questionIndex)}
+                    >
+                      <CancelIcon className="plusiconbutton" />
+                    </IconButton>
+                  </div>
+                </div>
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                sm={2}
+                className="mt-1 d-flex justify-content-start quizcontent"
+              >
+                <p>CLO:</p>
+              </Grid>
+              <Grid item xs={12} sm={10}>
+                <TextField
+                  fullWidth
+                  variant="filled"
+                  size="small"
+                  select
+                  className="inputfield"
+                  value={ques.clo}
+                  onChange={(event) =>
+                    handleCloChange(event, questionIndex, 0, true)
+                  }
+                  placeholder="Select CLO"
                 >
-                  <p>CLO:</p>
-                </Grid>
-                <Grid item md={10}>
-                  <TextField
-                    fullWidth
-                    variant="filled"
-                    size="small"
-                    select
-                    className="inputfield"
-                    value={ques.clo}
-                    onChange={(event) =>
-                      handleCloChange(event, questionIndex, 0, true)
-                    }
-                    placeholder="Select CLO"
+                  <MenuItem value={0}>None</MenuItem>
+                  {clos.map((clo) => (
+                    <MenuItem key={clo.id} value={clo.id}>
+                      {clo.id} - {clo.clo}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                sm={2}
+                className="mt-1 d-flex justify-content-start quizcontent"
+              >
+                <p>Total Marks:</p>
+              </Grid>
+              <Grid item xs={12} sm={10}>
+                <TextField
+                  fullWidth
+                  type="number"
+                  variant="outlined"
+                  value={ques.marks}
+                  onChange={(event) =>
+                    handleMarksChange(event, questionIndex, 0, true)
+                  }
+                  size="small"
+                  className="inputfield"
+                  placeholder="Enter Marks"
+                />
+              </Grid>
+              <Grid item xs={12} className="mt-1">
+                <div className="row">
+                  <div className="col mt-1 d-flex justify-content-start quizcontent">
+                    <p>Add Parts of Question {questionIndex + 1}:</p>
+                  </div>
+                  <div className="col d-flex justify-content-end">
+                    <IconButton onClick={() => addParts(questionIndex)}>
+                      <AddCircleIcon className="plusiconbutton" />
+                    </IconButton>
+                  </div>
+                </div>
+              </Grid>
+              {ques.parts.map((part, partIndex) => (
+                <React.Fragment key={partIndex}>
+                  <Grid item xs={12}>
+                    <div className="row">
+                      <div className="col mt-1 d-flex justify-content-start quizcontent">
+                        <p>Part {part.part}:</p>
+                      </div>
+                      <div className="col d-flex justify-content-end">
+                        <IconButton
+                          onClick={() =>
+                            handleRemoveParts(questionIndex, partIndex)
+                          }
+                        >
+                          <CancelIcon className="plusiconbutton" />
+                        </IconButton>
+                      </div>
+                    </div>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={12}
+                    sm={2}
+                    className="mt-1 d-flex justify-content-start quizcontent"
                   >
-                    <MenuItem value={0}>None</MenuItem>
-                    {clos.map((clo) => {
-                      return (
-                        <MenuItem value={clo.id}>
+                    <p>CLO:</p>
+                  </Grid>
+                  <Grid item xs={12} sm={10}>
+                    <TextField
+                      fullWidth
+                      variant="filled"
+                      size="small"
+                      value={part.clo}
+                      onChange={(event) =>
+                        handleCloChange(event, questionIndex, partIndex, false)
+                      }
+                      select
+                      className="inputfield"
+                    >
+                      <MenuItem value={0}>None</MenuItem>
+                      {clos.map((clo) => (
+                        <MenuItem key={clo.id} value={clo.id}>
                           {clo.id} - {clo.clo}
                         </MenuItem>
-                      );
-                    })}
-                  </TextField>
-                </Grid>
-                <Grid
-                  item
-                  md={2}
-                  className="mt-1 d-flex justify-content-start quizcontent"
-                >
-                  <p>Total Marks:</p>
-                </Grid>
-                <Grid item md={10}>
-                  <TextField
-                    fullWidth
-                    type="number"
-                    variant="outlined"
-                    value={ques.marks}
-                    onChange={(event) =>
-                      handleMarksChange(event, questionIndex, 0, true)
-                    }
-                    size="small"
-                    className="inputfield"
-                    placeholder="Enter Marks"
-                  ></TextField>
-                </Grid>
-                <Grid item md={12} className="mt-1">
-                  <div className="row">
-                    <div className="col mt-1 d-flex justify-content-start quizcontent">
-                      <p>Add Parts of Question {questionIndex + 1}:</p>
-                    </div>
-                    <div className="col d-flex justify-content-end">
-                      <IconButton onClick={() => addParts(questionIndex)}>
-                        <AddCircleIcon className="plusiconbutton" />
-                      </IconButton>
-                    </div>
-                  </div>
-                </Grid>
-                {ques.parts.map((part, partIndex) => {
-                  return (
-                    <>
-                      <Grid item md={12}>
-                        <div className="row">
-                          <div className="col mt-1 d-flex justify-content-start quizcontent">
-                            <p>Part {part.part}:</p>
-                          </div>
-                          <div className="col d-flex justify-content-end">
-                            <IconButton
-                              onClick={() =>
-                                handleRemoveParts(questionIndex, partIndex)
-                              }
-                            >
-                              <CancelIcon className="plusiconbutton" />
-                            </IconButton>
-                          </div>
-                        </div>
-                      </Grid>
-                      <Grid
-                        item
-                        md={2}
-                        className="mt-1 d-flex justify-content-start quizcontent"
-                      >
-                        <p>CLO:</p>
-                      </Grid>
-                      <Grid item md={10}>
-                        <TextField
-                          fullWidth
-                          variant="filled"
-                          size="small"
-                          value={part.clo}
-                          onChange={(event) =>
-                            handleCloChange(
-                              event,
-                              questionIndex,
-                              partIndex,
-                              false
-                            )
-                          }
-                          select
-                          className="inputfield"
-                        >
-                          <MenuItem value={0}>None</MenuItem>
-                          {clos.map((clo) => {
-                            return (
-                              <MenuItem value={clo.id}>
-                                {clo.id} - {clo.clo}
-                              </MenuItem>
-                            );
-                          })}
-                        </TextField>
-                      </Grid>
-                      <Grid
-                        item
-                        md={2}
-                        className="mt-1 d-flex justify-content-start quizcontent"
-                      >
-                        <p>Total Marks:</p>
-                      </Grid>
-                      <Grid item md={10}>
-                        <TextField
-                          fullWidth
-                          type="number"
-                          variant="outlined"
-                          size="small"
-                          value={part.marks}
-                          onChange={(event) =>
-                            handleMarksChange(
-                              event,
-                              questionIndex,
-                              partIndex,
-                              false
-                            )
-                          }
-                          className="inputfield"
-                          placeholder="Enter Marks"
-                        ></TextField>
-                      </Grid>
-                    </>
-                  );
-                })}
-              </>
-            );
-          })}
-          <Grid item md={12} sx={{ display: "flex", justifyContent: "end" }}>
+                      ))}
+                    </TextField>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={12}
+                    sm={2}
+                    className="mt-1 d-flex justify-content-start quizcontent"
+                  >
+                    <p>Total Marks:</p>
+                  </Grid>
+                  <Grid item xs={12} sm={10}>
+                    <TextField
+                      fullWidth
+                      type="number"
+                      variant="outlined"
+                      size="small"
+                      value={part.marks}
+                      onChange={(event) =>
+                        handleMarksChange(
+                          event,
+                          questionIndex,
+                          partIndex,
+                          false
+                        )
+                      }
+                      className="inputfield"
+                      placeholder="Enter Marks"
+                    />
+                  </Grid>
+                </React.Fragment>
+              ))}
+            </React.Fragment>
+          ))}
+          <Grid item xs={12} sx={{ display: "flex", justifyContent: "end" }}>
             <Button
               onClick={(event) => handleSubmit(event)}
               variant="contained"

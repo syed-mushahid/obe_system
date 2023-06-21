@@ -108,7 +108,7 @@ export default function Add_Attendance() {
   return (
     <div className="m-5">
       <Card style={{ padding: 70 }}>
-        <Menue/>
+        <Menue />
         <div className="row " style={{ marginBottom: 10 }}>
           <div className="col-md-10">
             <h5>Date and Time</h5>

@@ -1,6 +1,6 @@
 const { db } = require("../database");
 const mysql = require("mysql2/promise");
-require('dotenv').config();
+require("dotenv").config();
 
 exports.addExam = async (req, res) => {
   const examName = req.body.examName;
@@ -394,15 +394,41 @@ exports.getMarkSheetData = async (req, res) => {
     });
 
     const query = `
-    SELECT student.name AS studentName, student.roll_no AS studentRollno, exam.examName, exam.totalMarks, assessment.weightage,exam.assessmentId, examquestion.questionNumber, questionpart.partNumber, gradding.obtainedMarks, gradding.id AS gradingId,gradding.totalMarks AS questionTotalMarks,gradding.cloId AS clo
-    FROM student
+    SELECT
+    student.name AS studentName,
+    student.roll_no AS studentRollno,
+    exam.examName,
+    exam.totalMarks,
+    assessment.weightage,
+    exam.assessmentId,
+    examquestion.questionNumber,
+    questionpart.partNumber,
+    gradding.obtainedMarks,
+    gradding.id AS gradingId,
+    gradding.totalMarks AS questionTotalMarks,
+    gradding.cloId AS clo
+  FROM
+    student
     LEFT JOIN gradding ON student.roll_no = gradding.roll_no AND student.course_id = ?
     LEFT JOIN exam ON gradding.examId = exam.id
     LEFT JOIN assessment ON exam.assessmentId = assessment.id
     LEFT JOIN examquestion ON gradding.questionId = examquestion.id
     LEFT JOIN questionpart ON gradding.partId = questionpart.id
-    WHERE exam.courseId = ?
-    ORDER BY student.name, exam.examName, examquestion.questionNumber, questionpart.partNumber;
+  WHERE
+    exam.courseId = ?
+  ORDER BY
+    student.name,
+    CASE
+    WHEN exam.examName = 'Midterm' THEN 2
+      WHEN exam.examName = 'Final Term' THEN 3
+      WHEN exam.examName = 'Lab exam' THEN 4
+      WHEN exam.examName = 'Project' THEN 5
+      ELSE 1
+    END,
+    exam.examName,
+    examquestion.questionNumber,
+    questionpart.partNumber;
+
   `;
 
     const results = await connection.query(query, [courseId, courseId]);
@@ -427,16 +453,6 @@ exports.getMarkSheetData = async (req, res) => {
       const assessmentId = row.assessmentId;
       const clo = row.clo;
 
-      // console.log("Student Name:", studentName);
-      // console.log("Student Roll No:", studentRollno);
-      // console.log("Exam Name:", examName);
-      // console.log("Question Number:", questionNumber);
-      // console.log("Part Number:", partNumber);
-      // console.log("Obtained Marks:", obtainedMarks);
-      // console.log("Grading Id:", gradingId);
-      // console.log("Total Marks:", totalMarks);
-      // console.log("Weightage:", weightage);
-
       if (!markSheetData[studentName]) {
         markSheetData[studentName] = {
           studentRollno: studentRollno,
@@ -459,8 +475,6 @@ exports.getMarkSheetData = async (req, res) => {
         clo,
       };
     });
-
-    // console.log("Mark Sheet Data:", markSheetData);
 
     res.json(markSheetData);
   } catch (error) {

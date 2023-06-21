@@ -14,6 +14,7 @@ import GradingIcon from "@mui/icons-material/Grading";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import HistoryToggleOffIcon from "@mui/icons-material/HistoryToggleOff";
 import Chip from "@mui/material/Chip";
+import ThumbsUpDownIcon from "@mui/icons-material/ThumbsUpDown";
 import { Stack } from "@mui/system";
 import CSVReader from "react-csv-reader";
 import Modal from "@mui/material/Modal";
@@ -173,6 +174,27 @@ export default function Coursedashboard() {
                   </div>
                   <div className="col-11 mt-2" style={{ paddingLeft: "0" }}>
                     <p className="coursedashpara">View Attendance</p>
+                  </div>
+                </div>
+              </Card>
+            </Link>
+            <Link to={"/feedback/" + id} style={{ textDecoration: "none" }}>
+              <Card
+                className="shadow-inner"
+                style={{ marginTop: "15px", backgroundColor: "#F5F5F5" }}
+              >
+                <div className="row m-2">
+                  <div className="col-1 mt-1 " style={{ paddingLeft: "35px" }}>
+                     <ThumbsUpDownIcon
+                      style={{
+                        fontSize: "30px",
+                        marginTop: "3px",
+                        color: "#346448",
+                      }}
+                    />
+                  </div>
+                  <div className="col-11 mt-2" style={{ paddingLeft: "0" }}>
+                    <p className="coursedashpara">Course Feedback</p>
                   </div>
                 </div>
               </Card>

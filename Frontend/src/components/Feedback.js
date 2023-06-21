@@ -1,25 +1,39 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { Card, Button } from "@mui/material";
-
+import { getQuestions, getCourseById, saveFeedback } from "../apiCalls";
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 const Feedback = () => {
   const [questions, setQuestions] = useState([]);
+  const [course, setCourse] = useState([]);
   const [feedback, setFeedback] = useState([]);
+  const { id } = useParams();
   useEffect(() => {
-    const fetchQuestions = async () => {
-      try {
-        const response = await axios.get("http://localhost:3001/questions");
-        console.log(response);
-        setQuestions(response.data);
-        initializeFeedbackState(response.data);
-      } catch (error) {
-        console.error("Error fetching questions:", error);
-      }
-    };
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     fetchQuestions();
+    getCourseData();
   }, []);
+
+  const getCourseData = async () => {
+    try {
+      const res = await getCourseById({ id: id });
+      if (res) {
+        setCourse(res.data[0]);
+        console.log("Res", res.data);
+      }
+    } catch (error) {
+      console.log("Error", error);
+    }
+  };
+  const fetchQuestions = async () => {
+    try {
+      const response = await getQuestions();
+      console.log("Questions", response);
+      setQuestions(response.data);
+      initializeFeedbackState(response.data);
+    } catch (error) {
+      console.error("Error fetching questions:", error);
+    }
+  };
 
   const buttonStyles = {
     backgroundColor: "#346448",
@@ -33,6 +47,7 @@ const Feedback = () => {
   const initializeFeedbackState = (questions) => {
     const initialState = questions?.map((question) => ({
       feedback_id: question.feedback_id,
+      course_id: id,
       answer: "",
     }));
     setFeedback(initialState);
@@ -50,12 +65,16 @@ const Feedback = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(feedback);
+    const hasEmptyAnswer = feedback.some(
+      (answer) => answer.answer.trim() === ""
+    );
+    if (hasEmptyAnswer) {
+      toast.error("Please provide an answer for all questions.");
+      return;
+    }
+
     try {
-      const result = await axios.post(
-        "http://localhost:3001/feedback",
-        feedback
-      );
+      const result = await saveFeedback(feedback);
       if (result.status !== 200) {
         alert("err");
       }
@@ -82,15 +101,17 @@ const Feedback = () => {
       >
         <div className="row">
           <div className="col-md-12 d-flex justify-content-center mb-5 mt-5 coursename">
-            SE242SP23 Software Engineering (Course Feedback)
+            {course.courseCode} {course.name} {course.department} (Feedback)
           </div>
         </div>
         <div class="container">
           <form>
             {questions?.map((question) => (
               <div key={question.feedback_id}>
-                <h4 style={setcolor}>{question.question}</h4>
-                <label style={setcolor}>
+                <h5 className="my-2" style={setcolor}>
+                  <b>{question.question}</b>
+                </h5>
+                <label className="my-2 me-4" style={setcolor}>
                   <input
                     type="radio"
                     value="Strongly Agree"
@@ -106,7 +127,7 @@ const Feedback = () => {
                   />
                   Strongly Agree
                 </label>
-                <label style={setcolor}>
+                <label className="my-2 me-4" style={setcolor}>
                   <input
                     type="radio"
                     value="Agree"
@@ -122,7 +143,7 @@ const Feedback = () => {
                   />
                   Agree
                 </label>
-                <label style={setcolor}>
+                <label className="my-2 me-4" style={setcolor}>
                   <input
                     type="radio"
                     value="good"
@@ -138,7 +159,7 @@ const Feedback = () => {
                   />
                   Good
                 </label>
-                <label style={setcolor}>
+                <label className="my-2 me-4" style={setcolor}>
                   <input
                     type="radio"
                     value="Disagree"

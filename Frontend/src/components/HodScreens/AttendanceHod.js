@@ -10,7 +10,14 @@ export default function AttendanceHod() {
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
   };
-
+  const buttonStyles = {
+    backgroundColor: "#346448",
+    marginRight: "10.5em",
+    padding: "px 15px",
+    "&:hover": {
+      backgroundColor: "#346448", // Ensures hover doesn't change the color
+    },
+  };
   const columns = [
     { field: "id", headerName: "ID", flex: 1 },
     { field: "reg_no", headerName: "Reg No.", flex: 1 },
@@ -99,9 +106,10 @@ export default function AttendanceHod() {
           <div className="col-md-2 ">
             <Button
               fullWidth
+              style={buttonStyles}
               variant="contained"
               size="small"
-              style={{ backgroundColor: "#51BE78", marginTop: 34 }}
+             className="mt-5"
             >
               Submit
             </Button>

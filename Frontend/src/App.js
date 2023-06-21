@@ -92,7 +92,7 @@ function App() {
             />
             <Route
               exact
-              path="/feedback"
+              path="/feedback/:id"
               element={<ProtectedRoutes component={Feedback} />}
             />
             <Route

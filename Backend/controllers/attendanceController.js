@@ -62,26 +62,6 @@ exports.saveAttendance = async (req, res) => {
   }
 };
 
-// exports.viewAttendence = async (req, res) => {
-//   const courseId = req.body.courseId;
-//   const studentId = req.body.studentId;
-//   const sql =
-//     "SELECT * FROM attendance WHERE courseId = ? AND studentId = ? ORDER BY date ASC";
-//   db.query(sql, [courseId, studentId], (error, Results) => {
-//     if (error) {
-//       console.error("Error executing query", error);
-//       return res
-//         .status(500)
-//         .json({ error: "Internal server error", message: error.sqlMessage });
-//     }
-//     if (Results.length > 0) {
-//       return res.status(200).json({ Results });
-//     } else {
-//       return res.status(400).json({ error: "No Result Found" });
-//     }
-//   });
-// };
-
 exports.viewAttendance = async (req, res) => {
   const courseId = req.body.id;
   // var extraPercentage = 0;
@@ -95,23 +75,8 @@ exports.viewAttendance = async (req, res) => {
       database: process.env.DATABASE || "obesystem",
     });
 
-    // const extraAttenSql = "SELECT * FROM extraattendance WHERE courseId = ?";
-    // db.query(extraAttenSql, [courseId], (error, extraResult) => {
-    //   if (error) {
-    //     console.log({
-    //       error: "Internal server error",
-    //       message: error.sqlMessage,
-    //     });
-    //   }
-    //   if (extraResult.length > 0) {
-    //     extraPercentage = parseFloat(extraResult[0].percentage);
-    //     console.log("Extra If ", extraPercentage);
-    //   } else {
-    //     extraPercentage = 0;
-    //   }
-    // });
 
-    // Fetch the distinct dates from the Attendance table
+    
     const datesQuery =
       "SELECT DISTINCT date FROM attendance WHERE courseId = ?";
     const [datesResult] = await connection.query(datesQuery, [courseId]);

@@ -3,8 +3,8 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 exports.enrollStudent = async (req, res) => {
+  
   const courseId = req.body.courseId; // Assuming the course ID is provided in the request body
-
   const studentData = req.body.students.filter((data) => {
     const rollNo = data[0]; // Retrieve roll number from the second element
     const name = data[1];

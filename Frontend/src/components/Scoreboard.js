@@ -73,10 +73,6 @@ export default function Scoreboard() {
   };
 
   const handleMarkChange = (event, studentName, assignment, question, part) => {
-    console.log("Changes Part", part);
-    console.log("Changes Part Toal", part.questionTotalMarks);
-    console.log("Changes Part Obtained", event.target.value);
-
     const updatedMark = {
       studentName,
       assignment,
@@ -92,7 +88,6 @@ export default function Scoreboard() {
     var totalMarks =
       obtainedMarks[studentName][assignment][question][part].questionTotalMarks;
 
-    console.log("Changed Totaaal", totalMarks);
     if (parseFloat(totalMarks) < parseFloat(event.target.value)) {
       toast.error("Obtained marks cannot exceed total marks");
       return;
@@ -155,8 +150,7 @@ export default function Scoreboard() {
       rollNo: obtainedMarks[studentName].studentRollno, // Assuming the student roll number is stored in the 'rollNo' property
     };
   });
-  console.log("Names", studentNames);
-  console.log("Data", studentData);
+
   const assignments = Object.keys(obtainedMarks[studentNames[0]]).filter(
     (key) => key !== "studentRollno"
   );
@@ -325,8 +319,7 @@ export default function Scoreboard() {
                         }
                       }
                     }
-                    console.log("nxt", nextAssessmentId);
-                    console.log("nxt crrent", currentAssessmentId);
+
                     if (currentAssessmentId != nextAssessmentId) {
                       return [
                         <th
@@ -534,26 +527,18 @@ export default function Scoreboard() {
                       assesmentTotalMarks +
                       assignmentWeightage /
                         assessmentCounts["" + currentAssessmentId];
-                    console.log("heading current ok", currentAssessmentId);
-                    console.log("heading next ok", nextAssessmentId);
 
                     if (currentAssessmentId !== nextAssessmentId) {
-                      console.log(
-                        "G total",
-                        totalGrandtotal +
-                          "+" +
-                          assesmentTotalMarks +
-                          "= " +
-                          parseFloat(totalGrandtotal) +
-                          parseFloat(assesmentTotalMarks)
-                      );
                       totalGrandtotal =
                         parseFloat(totalGrandtotal) +
                         parseFloat(assesmentTotalMarks);
                       let marks = Number(assesmentTotalMarks).toFixed(1);
                       assesmentTotalMarks = 0;
-                      return [, ...columns, <th>{parseFloat(marks).toFixed(1)}</th>
-                    ];
+                      return [
+                        ,
+                        ...columns,
+                        <th>{parseFloat(marks).toFixed(1)}</th>,
+                      ];
                     }
 
                     return [...columns];
@@ -561,7 +546,9 @@ export default function Scoreboard() {
 
                   <th>
                     Grand Total (
-                    {course?.mainCourse == 0
+                    {course?.haveLab == 0 && course?.mainCourse == 0
+                      ? parseFloat(totalGrandtotal).toFixed(1)
+                      : course?.mainCourse == 0
                       ? Number(parseFloat(totalGrandtotal) * 0.75).toFixed(1)
                       : Number(parseFloat(totalGrandtotal) * 0.25).toFixed(1)}
                     )
@@ -597,38 +584,46 @@ export default function Scoreboard() {
                                 "-"
                               ) : (
                                 <input
-                                type="number"
-                                value={obtainedMarks[studentName][assignment][question][part].obtainedMarks}
-                                onChange={(event) => {
-                                  const inputValue = event.target.value;
-                                  const validInput = /^\d*\.?\d*$/.test(inputValue) ? inputValue : "0";
-                                  handleMarkChange(
-                                    {
-                                      ...event,
-                                      target: {
-                                        ...event.target,
-                                        value: validInput,
-                                      },
-                                    },
-                                    studentName,
-                                    assignment,
-                                    question,
-                                    part
-                                  );
-                                }}
-                                min={0}
-                                step="any"
-                                onKeyDown={(event) => {
-                                  const key = event.key;
-                                  if (
-                                    key === "-" || // Prevent entering negative numbers
-                                    (key === "e" && event.target.value.includes("e")) // Prevent entering exponential notation
-                                  ) {
-                                    event.preventDefault();
+                                  type="number"
+                                  value={
+                                    obtainedMarks[studentName][assignment][
+                                      question
+                                    ][part].obtainedMarks
                                   }
-                                }}
-                              />
-
+                                  onChange={(event) => {
+                                    const inputValue = event.target.value;
+                                    const validInput = /^\d*\.?\d*$/.test(
+                                      inputValue
+                                    )
+                                      ? inputValue
+                                      : "0";
+                                    handleMarkChange(
+                                      {
+                                        ...event,
+                                        target: {
+                                          ...event.target,
+                                          value: validInput,
+                                        },
+                                      },
+                                      studentName,
+                                      assignment,
+                                      question,
+                                      part
+                                    );
+                                  }}
+                                  min={0}
+                                  step="any"
+                                  onKeyDown={(event) => {
+                                    const key = event.key;
+                                    if (
+                                      key === "-" || // Prevent entering negative numbers
+                                      (key === "e" &&
+                                        event.target.value.includes("e")) // Prevent entering exponential notation
+                                    ) {
+                                      event.preventDefault();
+                                    }
+                                  }}
+                                />
                               )}
                             </td>
                           ));
@@ -733,9 +728,15 @@ export default function Scoreboard() {
                         return columns;
                       })}
                       <td>
-                        {course?.mainCourse == 0
-                          ? Number(parseFloat(finalGrandTotal) * 0.75).toFixed(1)
-                          : Number(parseFloat(finalGrandTotal) * 0.25).toFixed(1)}
+                        {course?.haveLab == 0 && course?.mainCourse == 0
+                          ? parseFloat(finalGrandTotal).toFixed(1)
+                          : course?.mainCourse == 0
+                          ? Number(parseFloat(finalGrandTotal) * 0.75).toFixed(
+                              1
+                            )
+                          : Number(parseFloat(finalGrandTotal) * 0.25).toFixed(
+                              1
+                            )}
                       </td>
                     </tr>
                   );
