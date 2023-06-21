@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 21, 2023 at 09:45 PM
+-- Generation Time: Jun 21, 2023 at 09:48 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -100,11 +100,11 @@ CREATE TABLE `course` (
 --
 
 INSERT INTO `course` (`id`, `name`, `creditHour`, `teacherId`, `mainCourse`, `courseType`, `courseCode`, `department`, `weightage`, `haveLab`) VALUES
-(1, 'OOP', 3, 1, 0, 'Theory', 'CS200', 'Software Engineering', 100, 1),
-(2, 'OOP', 1, 1, 1, 'Lab', 'CS200 ', 'Computer Science', 50, 0),
+(1, 'OOP', 3, 1, 0, 'Theory', 'CS200', 'Software Engineering', 0, 1),
+(2, 'OOP', 1, 1, 1, 'Lab', 'CS200 ', 'Computer Science', 0, 0),
 (3, 'Intro to computing', 2, NULL, 0, 'Theory', 'C100', 'Computer Science', 0, 1),
-(4, 'Intro to computing', 1, NULL, 3, 'Lab', 'C100', 'Computer Science', 50, 0),
-(5, 'Linear Algebra', 3, NULL, 0, 'Theory', 'MT2021', 'Mathematics ', 100, 0);
+(4, 'Intro to computing', 1, NULL, 3, 'Lab', 'C100', 'Computer Science', 0, 0),
+(5, 'Linear Algebra', 3, NULL, 0, 'Theory', 'MT2021', 'Mathematics ', 0, 0);
 
 -- --------------------------------------------------------
 
