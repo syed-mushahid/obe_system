@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 19, 2023 at 10:56 AM
+-- Generation Time: Jun 21, 2023 at 09:45 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -35,19 +35,6 @@ CREATE TABLE `assessment` (
   `weightage` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `assessment`
---
-
-INSERT INTO `assessment` (`id`, `name`, `courseId`, `marks`, `weightage`) VALUES
-(27, 'viva', 1, NULL, 20),
-(29, 'Assignment', 1, NULL, 30),
-(31, 'Quiz', 2, NULL, 10),
-(32, 'project', 2, NULL, 30),
-(33, 'Quiz', 1, NULL, 30),
-(34, 'lab work', 2, NULL, 10),
-(35, 'Midterm', 1, NULL, 20);
-
 -- --------------------------------------------------------
 
 --
@@ -61,95 +48,6 @@ CREATE TABLE `attendance` (
   `status` varchar(200) NOT NULL,
   `date` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `attendance`
---
-
-INSERT INTO `attendance` (`id`, `studentId`, `courseId`, `status`, `date`) VALUES
-(94, 66, 1, 'A', '2023-05-30'),
-(95, 67, 1, 'P', '2023-05-30'),
-(96, 68, 1, 'P', '2023-05-30'),
-(97, 66, 1, 'A', '2023-05-31'),
-(98, 67, 1, 'A', '2023-05-31'),
-(99, 68, 1, 'P', '2023-05-31'),
-(100, 66, 1, 'P', '2023-06-01'),
-(101, 67, 1, 'A', '2023-06-01'),
-(102, 68, 1, 'P', '2023-06-01'),
-(103, 66, 1, 'P', '2023-05-28'),
-(104, 67, 1, 'P', '2023-05-28'),
-(105, 68, 1, 'A', '2023-05-28'),
-(106, 66, 1, 'P', '2023-05-19'),
-(107, 67, 1, 'P', '2023-05-19'),
-(108, 68, 1, 'P', '2023-05-19'),
-(109, 66, 1, 'P', '2023-05-20'),
-(110, 67, 1, 'P', '2023-05-20'),
-(111, 68, 1, 'P', '2023-05-20'),
-(112, 66, 1, 'P', '2023-05-10'),
-(113, 67, 1, 'P', '2023-05-10'),
-(114, 68, 1, 'P', '2023-05-10'),
-(115, 13629, 1, 'P', '2023-06-14'),
-(116, 13627, 1, 'P', '2023-06-14'),
-(117, 12284, 1, 'P', '2023-06-14'),
-(118, 13629, 1, 'A', '2023-06-16'),
-(119, 13627, 1, 'P', '2023-06-16'),
-(120, 12284, 1, 'A', '2023-06-16'),
-(121, 2284, 1, 'P', '2023-06-16'),
-(122, 13629, 1, 'P', '2023-05-30'),
-(123, 13629, 1, 'P', '2023-05-31'),
-(124, 13629, 1, 'P', '2023-06-01'),
-(125, 13629, 1, 'P', '2023-05-28'),
-(126, 13629, 1, 'P', '2023-05-19'),
-(127, 13629, 1, 'A', '2023-05-20'),
-(128, 13629, 1, 'A', '2023-05-10'),
-(129, 12284, 1, 'P', '2023-05-30'),
-(130, 12284, 1, 'P', '2023-05-31'),
-(131, 12284, 1, 'A', '2023-06-01'),
-(132, 12284, 1, 'A', '2023-05-28'),
-(133, 12284, 1, 'A', '2023-05-19'),
-(134, 12284, 1, 'A', '2023-05-20'),
-(135, 12284, 1, 'A', '2023-05-10'),
-(136, 2324, 1, 'A', '2023-05-30'),
-(137, 2324, 1, 'A', '2023-05-31'),
-(138, 2324, 1, 'A', '2023-06-01'),
-(139, 2324, 1, 'A', '2023-05-28'),
-(140, 2324, 1, 'A', '2023-05-19'),
-(141, 2324, 1, 'P', '2023-05-20'),
-(142, 2324, 1, 'A', '2023-05-10'),
-(143, 2324, 1, 'A', '2023-06-14'),
-(144, 2324, 1, 'A', '2023-06-16'),
-(145, 13627, 1, 'P', '2023-05-30'),
-(146, 13627, 1, 'P', '2023-05-31'),
-(147, 13627, 1, 'P', '2023-06-01'),
-(148, 13627, 1, 'A', '2023-05-28'),
-(149, 13627, 1, 'A', '2023-05-19'),
-(150, 13627, 1, 'P', '2023-05-20'),
-(151, 13627, 1, 'P', '2023-05-10'),
-(152, 13629, 1, 'P', '2022-02-15'),
-(153, 13627, 1, 'P', '2022-02-15'),
-(154, 12284, 1, 'P', '2022-02-15'),
-(155, 2284, 1, 'P', '2022-02-15'),
-(156, 12332, 1, 'P', '2022-02-15'),
-(157, 13629, 1, 'P', '2023-11-15'),
-(158, 13627, 1, 'P', '2023-11-15'),
-(159, 12284, 1, 'P', '2023-11-15'),
-(160, 2284, 1, 'P', '2023-11-15'),
-(161, 12332, 1, 'P', '2023-11-15'),
-(162, 13629, 1, 'A', '2021-09-08'),
-(163, 13627, 1, 'A', '2021-09-08'),
-(164, 12284, 1, 'A', '2021-09-08'),
-(165, 2284, 1, 'A', '2021-09-08'),
-(166, 12332, 1, 'A', '2021-09-08'),
-(167, 13629, 1, 'P', '2021-06-09'),
-(168, 13627, 1, 'P', '2021-06-09'),
-(169, 12284, 1, 'P', '2021-06-09'),
-(170, 2284, 1, 'A', '2021-06-09'),
-(171, 12332, 1, 'A', '2021-06-09'),
-(172, 13629, 1, 'P', '2025-11-09'),
-(173, 13627, 1, 'P', '2025-11-09'),
-(174, 12284, 1, 'P', '2025-11-09'),
-(175, 2284, 1, 'P', '2025-11-09'),
-(176, 12332, 1, 'A', '2025-11-09');
 
 -- --------------------------------------------------------
 
@@ -173,7 +71,10 @@ INSERT INTO `clo` (`id`, `clo`, `courseId`, `ploId`, `cloKpi`) VALUES
 (1, 'Identify appropriate software process models for real-world problems.', 2, 1, 50),
 (2, 'Elaborate user stories using usecase and activity diagrams.', 2, 2, 60),
 (3, 'Design the elaborated user stories using simple design techniques', 1, 1, 60),
-(4, 'Create test cases for the elaborated user stories.', 1, 1, 50);
+(4, 'Create test cases for the elaborated user stories.', 1, 1, 50),
+(5, 'Learn Integration ', 5, 1, 50),
+(6, 'Elaborate user stories using usecase and activity diagrams.', 3, 2, 60),
+(7, 'Create test cases for the elaborated user stories.', 4, 1, 50);
 
 -- --------------------------------------------------------
 
@@ -190,16 +91,53 @@ CREATE TABLE `course` (
   `courseType` varchar(200) NOT NULL,
   `courseCode` varchar(200) DEFAULT NULL,
   `department` varchar(200) DEFAULT NULL,
-  `weightage` float DEFAULT NULL
+  `weightage` float DEFAULT NULL,
+  `haveLab` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `course`
 --
 
-INSERT INTO `course` (`id`, `name`, `creditHour`, `teacherId`, `mainCourse`, `courseType`, `courseCode`, `department`, `weightage`) VALUES
-(1, 'OOP', 3, 1, 0, 'Theory', 'SE2323', 'Software Engineering', 100),
-(2, 'DSA', 3, 1, 1, 'Lab', 'CS323', 'Computer Science', 50);
+INSERT INTO `course` (`id`, `name`, `creditHour`, `teacherId`, `mainCourse`, `courseType`, `courseCode`, `department`, `weightage`, `haveLab`) VALUES
+(1, 'OOP', 3, 1, 0, 'Theory', 'CS200', 'Software Engineering', 100, 1),
+(2, 'OOP', 1, 1, 1, 'Lab', 'CS200 ', 'Computer Science', 50, 0),
+(3, 'Intro to computing', 2, NULL, 0, 'Theory', 'C100', 'Computer Science', 0, 1),
+(4, 'Intro to computing', 1, NULL, 3, 'Lab', 'C100', 'Computer Science', 50, 0),
+(5, 'Linear Algebra', 3, NULL, 0, 'Theory', 'MT2021', 'Mathematics ', 100, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `coursefeedback`
+--
+
+CREATE TABLE `coursefeedback` (
+  `id` int(200) NOT NULL,
+  `courseId` int(200) DEFAULT NULL,
+  `questionId` int(200) DEFAULT NULL,
+  `answer` varchar(250) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `coursefeedback`
+--
+
+INSERT INTO `coursefeedback` (`id`, `courseId`, `questionId`, `answer`) VALUES
+(85, 2, 1, 'Strongly Agree'),
+(86, 2, 2, 'Strongly Agree'),
+(87, 2, 3, 'Agree'),
+(88, 2, 4, 'Agree'),
+(89, 2, 5, 'Agree'),
+(90, 2, 6, 'good'),
+(91, 2, 7, 'Strongly Agree'),
+(134, 1, 1, 'Strongly Agree'),
+(135, 1, 2, 'Agree'),
+(136, 1, 3, 'Agree'),
+(137, 1, 4, 'Agree'),
+(138, 1, 5, 'Disagree'),
+(139, 1, 6, 'Disagree'),
+(140, 1, 7, 'Disagree');
 
 -- --------------------------------------------------------
 
@@ -217,15 +155,6 @@ CREATE TABLE `courseplan` (
   `activities` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `courseplan`
---
-
-INSERT INTO `courseplan` (`id`, `courseId`, `weekNo`, `fromDate`, `toDate`, `topicCovered`, `activities`) VALUES
-(11, 1, '123', '2023-06-22', '2023-06-24', 'Quiz', 'Car'),
-(16, 1, '5', '2023-06-06', '2023-06-16', '12', 'ff'),
-(17, 1, 'syed@gmail.com', '2023-06-01', '2023-06-23', '12', '12');
-
 -- --------------------------------------------------------
 
 --
@@ -239,15 +168,6 @@ CREATE TABLE `exam` (
   `assessmentId` int(12) NOT NULL,
   `totalMarks` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `exam`
---
-
-INSERT INTO `exam` (`id`, `examName`, `courseId`, `assessmentId`, `totalMarks`) VALUES
-(122, 'Quiz ', 1, 33, 20),
-(123, 'Assignment ', 1, 29, 20),
-(124, 'Midterm ', 1, 35, 30);
 
 -- --------------------------------------------------------
 
@@ -263,48 +183,6 @@ CREATE TABLE `examquestion` (
   `marks` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `examquestion`
---
-
-INSERT INTO `examquestion` (`id`, `questionNumber`, `examId`, `cloId`, `marks`) VALUES
-(199, 1, 104, 1, 5),
-(200, 2, 104, 3, 5),
-(201, 1, 105, 3, 10),
-(202, 2, 105, 3, 10),
-(203, 1, 106, 4, 10),
-(204, 1, 107, 0, 10),
-(205, 1, 108, 3, 20),
-(206, 1, 109, 3, 2),
-(207, 2, 109, 3, 5),
-(208, 3, 109, 3, 3),
-(209, 1, 110, 4, 5),
-(210, 2, 110, 3, 5),
-(211, 3, 110, 4, 5),
-(212, 4, 110, 3, 5),
-(213, 1, 111, 1, 10),
-(214, 2, 111, 0, 10),
-(215, 1, 112, 2, 5),
-(216, 2, 112, 1, 5),
-(217, 3, 112, 1, 10),
-(218, 1, 113, 1, 10),
-(219, 1, 114, 0, 10),
-(220, 1, 115, 3, 10),
-(221, 1, 116, 0, 10),
-(222, 1, 117, 3, 10),
-(223, 1, 118, 3, 5),
-(224, 2, 118, 3, 5),
-(225, 1, 119, 4, 10),
-(226, 1, 120, 0, 10),
-(227, 1, 121, 4, 10),
-(228, 2, 121, 3, 10),
-(229, 1, 122, 3, 10),
-(230, 2, 122, 4, 10),
-(231, 1, 123, 0, 15),
-(232, 2, 123, 4, 5),
-(233, 1, 124, 3, 10),
-(234, 2, 124, 0, 20);
-
 -- --------------------------------------------------------
 
 --
@@ -317,12 +195,30 @@ CREATE TABLE `extraattendance` (
   `percentage` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `extraattendance`
+-- Table structure for table `feedback`
 --
 
-INSERT INTO `extraattendance` (`id`, `courseId`, `percentage`) VALUES
-(46, 1, 0);
+CREATE TABLE `feedback` (
+  `feedback_id` int(25) NOT NULL,
+  `question` varchar(300) NOT NULL,
+  `feedback` varchar(25) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `feedback`
+--
+
+INSERT INTO `feedback` (`feedback_id`, `question`, `feedback`) VALUES
+(1, 'Course objectives were clear', 'Strongly Disagree'),
+(2, 'The course workload was manageable', 'Strongly Disagree'),
+(3, 'The Course was well organized (e.g. timely access to materials, notification of changes, etc.)', 'Strongly Disagree'),
+(4, 'I Participated actively in the Course', 'Strongly Disagree'),
+(5, 'I think I have made progress in this Course', 'Strongly Disagree'),
+(6, 'I think the Course was well structured to achieve the learning outcomes (there was a good balance of lectures, tutorials, practical etc.)', 'Strongly Disagree'),
+(7, 'The learning and teaching methods encouraged participation', 'Strongly Disagree');
 
 -- --------------------------------------------------------
 
@@ -341,52 +237,6 @@ CREATE TABLE `gradding` (
   `obtainedMarks` float DEFAULT NULL,
   `totalMarks` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `gradding`
---
-
-INSERT INTO `gradding` (`id`, `roll_no`, `courseId`, `examId`, `questionId`, `partId`, `cloId`, `obtainedMarks`, `totalMarks`) VALUES
-(1684, 13629, 1, 122, 229, NULL, 3, 0, '10'),
-(1685, 13627, 1, 122, 229, NULL, 3, 0, '10'),
-(1686, 12284, 1, 122, 229, NULL, 3, 10, '10'),
-(1687, 2284, 1, 122, 229, NULL, 3, 0, '10'),
-(1688, 12332, 1, 122, 229, NULL, 3, 10, '10'),
-(1689, 13629, 1, 122, 230, NULL, 4, 6, '10'),
-(1690, 13627, 1, 122, 230, NULL, 4, 0, '10'),
-(1691, 12284, 1, 122, 230, NULL, 4, 10, '10'),
-(1692, 2284, 1, 122, 230, NULL, 4, 0, '10'),
-(1693, 12332, 1, 122, 230, NULL, 4, 10, '10'),
-(1694, 13629, 1, 123, 232, NULL, 4, 5, '5'),
-(1695, 13627, 1, 123, 232, NULL, 4, 0, '5'),
-(1696, 12284, 1, 123, 232, NULL, 4, 0, '5'),
-(1697, 2284, 1, 123, 232, NULL, 4, 3, '5'),
-(1698, 12332, 1, 123, 232, NULL, 4, 5, '5'),
-(1699, 13629, 1, 123, 231, 264, 3, 2, '10'),
-(1700, 13629, 1, 123, 231, 265, 3, 5, '5'),
-(1701, 13627, 1, 123, 231, 264, 3, 4, '10'),
-(1702, 13627, 1, 123, 231, 265, 3, 0, '5'),
-(1703, 12284, 1, 123, 231, 264, 3, 10, '10'),
-(1704, 12284, 1, 123, 231, 265, 3, 4, '5'),
-(1705, 2284, 1, 123, 231, 264, 3, 0, '10'),
-(1706, 2284, 1, 123, 231, 265, 3, 5, '5'),
-(1707, 12332, 1, 123, 231, 264, 3, 7, '10'),
-(1708, 12332, 1, 123, 231, 265, 3, 5, '5'),
-(1709, 13629, 1, 124, 233, NULL, 3, 0, '10'),
-(1710, 13627, 1, 124, 233, NULL, 3, 0, '10'),
-(1711, 12284, 1, 124, 233, NULL, 3, 10, '10'),
-(1712, 2284, 1, 124, 233, NULL, 3, 0, '10'),
-(1713, 12332, 1, 124, 233, NULL, 3, 5, '10'),
-(1714, 13629, 1, 124, 234, 266, 4, 0, '10'),
-(1715, 13629, 1, 124, 234, 267, 3, 0, '10'),
-(1716, 13627, 1, 124, 234, 266, 4, 0, '10'),
-(1717, 13627, 1, 124, 234, 267, 3, 0, '10'),
-(1718, 12284, 1, 124, 234, 266, 4, 0, '10'),
-(1719, 12284, 1, 124, 234, 267, 3, 0, '10'),
-(1720, 2284, 1, 124, 234, 266, 4, 0, '10'),
-(1721, 2284, 1, 124, 234, 267, 3, 0, '10'),
-(1722, 12332, 1, 124, 234, 266, 4, 10, '10'),
-(1723, 12332, 1, 124, 234, 267, 3, 10, '10');
 
 -- --------------------------------------------------------
 
@@ -422,82 +272,6 @@ CREATE TABLE `questionpart` (
   `marks` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `questionpart`
---
-
-INSERT INTO `questionpart` (`id`, `examQuestionId`, `partNumber`, `cloId`, `marks`) VALUES
-(198, 161, 1, 0, 10),
-(199, 163, 1, 1, 5),
-(200, 163, 2, 2, 5),
-(201, 164, 1, 0, 12),
-(202, 165, 1, 0, 40),
-(203, 167, 1, 3, 5),
-(204, 167, 2, 4, 5),
-(205, 168, 1, 2, 5),
-(206, 168, 2, 0, 5),
-(207, 170, 1, 0, 5),
-(208, 171, 1, 0, 2),
-(209, 174, 1, 0, 5),
-(210, 174, 2, 0, 5),
-(211, 175, 1, 3, 20),
-(212, 175, 2, 4, 20),
-(213, 176, 1, 1, 5),
-(214, 176, 2, 1, 5),
-(215, 177, 1, 0, 30),
-(216, 179, 1, 1, 4),
-(217, 180, 1, 3, 4),
-(218, 180, 2, 4, 5),
-(219, 181, 1, 3, 3),
-(220, 181, 2, 3, 2),
-(221, 181, 3, 3, 3),
-(222, 183, 1, 0, 5),
-(223, 184, 1, 1, 0),
-(224, 184, 2, 1, 2),
-(225, 184, 3, 1, 3),
-(226, 185, 1, 0, 4),
-(227, 185, 2, 0, 1),
-(228, 186, 1, 1, 0),
-(229, 186, 2, 1, 3),
-(230, 186, 3, 1, 2),
-(231, 186, 4, 1, 5),
-(232, 187, 1, 1, 10),
-(233, 187, 2, 1, 10),
-(234, 187, 3, 1, 5),
-(235, 187, 4, 1, 5),
-(236, 188, 1, 3, 20),
-(237, 188, 2, 4, 20),
-(238, 190, 1, 2, 5),
-(239, 192, 1, 1, 3),
-(240, 192, 2, 1, 2),
-(241, 193, 1, 3, 2),
-(242, 193, 2, 2, 3),
-(243, 196, 1, 1, 5),
-(244, 197, 1, 3, 2),
-(245, 197, 2, 3, 3),
-(246, 197, 3, 4, 5),
-(247, 198, 1, 3, 5),
-(248, 198, 2, 4, 3),
-(249, 198, 3, 2, 7),
-(250, 199, 1, 1, 5),
-(251, 201, 1, 3, 5),
-(252, 201, 2, 3, 5),
-(253, 203, 1, 4, 5),
-(254, 203, 2, 4, 5),
-(255, 204, 1, 3, 10),
-(256, 213, 1, 1, 10),
-(257, 214, 1, 1, 5),
-(258, 214, 2, 2, 5),
-(259, 219, 1, 4, 10),
-(260, 220, 1, 3, 5),
-(261, 220, 2, 3, 5),
-(262, 221, 1, 3, 6),
-(263, 221, 2, 4, 4),
-(264, 231, 1, 3, 10),
-(265, 231, 2, 3, 5),
-(266, 234, 1, 4, 10),
-(267, 234, 2, 3, 10);
-
 -- --------------------------------------------------------
 
 --
@@ -511,22 +285,6 @@ CREATE TABLE `student` (
   `email` varchar(200) NOT NULL,
   `course_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `student`
---
-
-INSERT INTO `student` (`id`, `roll_no`, `name`, `email`, `course_id`) VALUES
-(285, '13629', 'Syed Mushahid Hussain', '', 1),
-(286, '13627', 'Talha', '', 1),
-(287, '12284', 'Luqman Waheed', '', 1),
-(288, '2284', 'Usama Shah', '', 1),
-(289, '12332', 'Ali Akbar', '', 1),
-(290, '13629', 'Syed Mushahid Hussain', '', 2),
-(291, '13627', 'Talha', '', 2),
-(292, '12284', 'Luqman Waheed', '', 2),
-(293, '2284', 'Usama Shah', '', 2),
-(294, '12332', 'Ali Akbar', '', 2);
 
 -- --------------------------------------------------------
 
@@ -582,6 +340,12 @@ ALTER TABLE `clo`
 -- Indexes for table `course`
 --
 ALTER TABLE `course`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `coursefeedback`
+--
+ALTER TABLE `coursefeedback`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -646,7 +410,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `assessment`
 --
 ALTER TABLE `assessment`
-  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `attendance`
@@ -658,25 +422,31 @@ ALTER TABLE `attendance`
 -- AUTO_INCREMENT for table `course`
 --
 ALTER TABLE `course`
-  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `coursefeedback`
+--
+ALTER TABLE `coursefeedback`
+  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
 
 --
 -- AUTO_INCREMENT for table `courseplan`
 --
 ALTER TABLE `courseplan`
-  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `exam`
 --
 ALTER TABLE `exam`
-  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
+  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=136;
 
 --
 -- AUTO_INCREMENT for table `examquestion`
 --
 ALTER TABLE `examquestion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=235;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=252;
 
 --
 -- AUTO_INCREMENT for table `extraattendance`
@@ -688,7 +458,7 @@ ALTER TABLE `extraattendance`
 -- AUTO_INCREMENT for table `gradding`
 --
 ALTER TABLE `gradding`
-  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1724;
+  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1825;
 
 --
 -- AUTO_INCREMENT for table `plo`
@@ -700,13 +470,13 @@ ALTER TABLE `plo`
 -- AUTO_INCREMENT for table `questionpart`
 --
 ALTER TABLE `questionpart`
-  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=268;
+  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=275;
 
 --
 -- AUTO_INCREMENT for table `student`
 --
 ALTER TABLE `student`
-  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=295;
+  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=301;
 
 --
 -- AUTO_INCREMENT for table `users`
