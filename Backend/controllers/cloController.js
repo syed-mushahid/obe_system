@@ -222,4 +222,3 @@ exports.getCloByCourse = async (req, res) => {
     return res.json(students);
   });
 };
-

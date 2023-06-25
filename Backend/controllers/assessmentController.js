@@ -5,8 +5,6 @@ exports.AddAssessment = async (req, res) => {
   const name = req.body.name;
   const marks = req.body.marks;
   const weightage = req.body.weightage;
-
-
   const checkWeightage = "SELECT * FROM course WHERE id = ?";
   db.query(checkWeightage, [courseId], (error, result) => {
     if (error) {

@@ -88,7 +88,7 @@ const Quizform = () => {
     questions: [
       {
         questionNumber: 1,
-        clo: "", // input type number
+        clo: 0, // input type number
         marks: "", // input type number
         parts: [],
       },
@@ -118,7 +118,7 @@ const Quizform = () => {
     const newQuiz = { ...quiz };
     newQuiz.questions.push({
       questionNumber: newQuiz.questions.length + 1,
-      clo: "", // input type number
+      clo: 0, // input type number
       marks: "", // input type number
       parts: [], // initialize parts array
     });
@@ -378,18 +378,7 @@ const Quizform = () => {
               placeholder="Enter Marks"
             />
           </Grid>
-          <Grid item xs={12} className="mt-1">
-            <div className="row">
-              <div className="col mt-1 d-flex justify-content-start quizcontent">
-                <p>Add Questions</p>
-              </div>
-              <div className="col d-flex justify-content-end">
-                <IconButton onClick={addQuestion}>
-                  <AddCircleIcon className="plusiconbutton" />
-                </IconButton>
-              </div>
-            </div>
-          </Grid>
+
           {quiz.questions.map((ques, questionIndex) => (
             <React.Fragment key={questionIndex}>
               <Grid item xs={12} className="mt-1">
@@ -546,7 +535,31 @@ const Quizform = () => {
               ))}
             </React.Fragment>
           ))}
+          <Grid item xs={12} className="mt-1">
+            <div className="row">
+              <div className="col mt-1 d-flex justify-content-start quizcontent">
+                <p>Add Questions</p>
+              </div>
+              <div className="col d-flex justify-content-end">
+                <IconButton onClick={addQuestion}>
+                  <AddCircleIcon className="plusiconbutton" />
+                </IconButton>
+              </div>
+            </div>
+          </Grid>
           <Grid item xs={12} sx={{ display: "flex", justifyContent: "end" }}>
+            <Button
+              onClick={(event) => navigate("/assessmentdashboard/" + id)}
+              variant="contained"
+              className="quizbutton me-3"
+              sx={{
+                paddingLeft: "30px",
+                paddingRight: "30px",
+                backgroundColor: "#346448",
+              }}
+            >
+              Cancle
+            </Button>
             <Button
               onClick={(event) => handleSubmit(event)}
               variant="contained"
