@@ -454,7 +454,7 @@ exports.getMarkSheetData = async (req, res) => {
       const clo = row.clo;
 
       if (!markSheetData[studentName]) {
-        markSheetData[studentName] = {
+         markSheetData[studentName] = {
           studentRollno: studentRollno,
         };
       }

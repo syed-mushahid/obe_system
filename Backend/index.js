@@ -3,13 +3,11 @@ const { db } = require("./database");
 const cors = require("cors");
 const path = require("path");
 const app = express();
+app.use(cors());
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-  })
-);
+
 app.use(express.static(path.join(__dirname, "build")));
 
 app.get("*", (req, res) => {
@@ -34,17 +32,14 @@ app.use("/", examRoutes);
 const studentsRoutes = require("./routes/studentsRoutes");
 app.use("/", studentsRoutes);
 
-
 const attendanceRoutes = require("./routes/attendanceRoutes");
 app.use("/", attendanceRoutes);
-
 
 const cloRoutes = require("./routes/cloRoutes");
 app.use("/", cloRoutes);
 
 const feedbackRoutes = require("./routes/feedbackRoutes");
 app.use("/", feedbackRoutes);
-
 
 app.listen(3001, () => {
   console.log("Server is running on port 3001");

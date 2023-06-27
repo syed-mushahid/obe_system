@@ -729,7 +729,7 @@ export default function Scoreboard() {
                       })}
                       <td>
                         {course?.haveLab == 0 && course?.mainCourse == 0
-                          ? parseFloat(finalGrandTotal).toFixed(1)
+                          ? Number(parseFloat(finalGrandTotal)).toFixed(1)
                           : course?.mainCourse == 0
                           ? Number(parseFloat(finalGrandTotal) * 0.75).toFixed(
                               1
